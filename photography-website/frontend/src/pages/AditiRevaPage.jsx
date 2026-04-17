@@ -11,7 +11,7 @@ import LazyImage from '@/components/common/LazyImage'
 
 // Hero & Reel assets
 
-import reelPoster from '@/assets/custom/reva-reel-poster.png'
+import reelPoster from '@/assets/custom/webp-images/reva-reel-poster.webp'
 const reelSrc = 'https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/stories/aditi-reva/reel.mp4';
 
 // Narrative images

@@ -102,15 +102,15 @@ Thumbs.db
 *.bmp
 *.tiff
 
-# BUT allow images and videos inside the photography website
+# 1. Allow images in specific folders
 !photography-website/frontend/public/portfolio/**
 !photography-website/frontend/src/assets/**
-!photography-website/frontend/src/assets/**/*.mp4
-!photography-website/frontend/src/assets/**/*.MP4
-!photography-website/frontend/src/assets/**/*.mov
-!photography-website/frontend/src/assets/**/*.MOV
+!photography-website/frontend/src/pages/images/**
 
-# EXCLUDE large videos (>100MB) for GitHub
-photography-website/frontend/src/assets/custom/about-hero.MP4
-photography-website/frontend/src/assets/custom/story1-reel.mp4
-photography-website/frontend/src/assets/custom/story2-hero.mp4
+# 2. FORCE IGNORE all videos (even if they are in the folders above)
+photography-website/frontend/**/*.mp4
+photography-website/frontend/**/*.MP4
+photography-website/frontend/**/*.mov
+photography-website/frontend/**/*.MOV
+photography-website/frontend/**/*.avi
+photography-website/frontend/**/*.mkv
