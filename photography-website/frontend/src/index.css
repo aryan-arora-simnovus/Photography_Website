@@ -1,0 +1,392 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@300;400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design Tokens */
+:root {
+  --radius: 0.5rem;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 222.2 84% 4.9%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  /* Smooth transitions for interactive elements only */
+  a, button, input, select, textarea, .transition-all-refined {
+    transition: 
+      background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+/* Scroll Reveal Utilities */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-100 { transition-delay: 100ms; }
+.reveal-delay-200 { transition-delay: 200ms; }
+.reveal-delay-300 { transition-delay: 300ms; }
+.reveal-delay-400 { transition-delay: 400ms; }
+.reveal-delay-500 { transition-delay: 500ms; }
+
+/* Photo Gallery Styles */
+.photo-item {
+  @apply relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300;
+}
+
+.photo-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300;
+}
+
+.react-photo-album {
+  background: transparent;
+}
+
+.react-photo-album img {
+  border-radius: 8px;
+}
+
+.photo-item:hover img {
+  transform: scale(1.02);
+}
+
+/* Loading Animations */
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
+.shimmer {
+  animation: shimmer 1.2s ease-in-out infinite;
+  background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+  background-size: 800px 104px;
+}
+
+/* Gallery Container */
+.photo-gallery-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.photo-gallery-container ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.photo-gallery-container ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.photo-gallery-container ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+/* Masonry Grid */
+.masonry-grid {
+  display: flex;
+  width: auto;
+  margin-left: -16px;
+}
+
+.masonry-column {
+  padding-left: 16px;
+  background-clip: padding-box;
+}
+
+.masonry-item {
+  break-inside: avoid;
+}
+
+/* Album Card 3D Effects */
+.album-card-3d {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.album-card-3d:hover {
+  transform: translateY(-5px) perspective(1000px) rotateX(2deg) rotateY(-2deg);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.album-card img {
+  transition: transform 0.5s ease, brightness 0.3s ease;
+}
+
+.album-card:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Bento Grid Responsive */
+@media (max-width: 768px) {
+  .grid.grid-cols-6 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .col-span-4 {
+    grid-column: span 2;
+  }
+  .col-span-2 {
+    grid-column: span 1;
+  }
+}
+
+/* Creative Gallery Styles */
+.creative-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: 200px;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.creative-card {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: fadeInUp 0.8s ease forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.creative-card--large-portrait { grid-row: span 3; grid-column: span 1; }
+.creative-card--wide-landscape { grid-row: span 2; grid-column: span 2; }
+.creative-card--square { grid-row: span 2; grid-column: span 1; }
+.creative-card--tall-portrait { grid-row: span 3; grid-column: span 1; }
+.creative-card--medium-landscape { grid-row: span 2; grid-column: span 2; }
+
+.creative-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.creative-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.creative-card p {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .creative-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 250px;
+  }
+  .creative-card--large-portrait,
+  .creative-card--wide-landscape,
+  .creative-card--square,
+  .creative-card--tall-portrait,
+  .creative-card--medium-landscape {
+    grid-row: span 2;
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .creative-grid {
+    gap: 0.5rem;
+    grid-auto-rows: 200px;
+  }
+  .creative-card {
+    grid-row: span 1 !important;
+  }
+}
+
+/* Navigation Viewport */
+.navigation-viewport {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 2rem);
+  width: max-content;
+}
+
+@media (max-width: 768px) {
+  .navigation-viewport {
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    width: auto;
+  }
+}
+
+/* Organic Gallery Styles */
+.organic-gallery-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.organic-masonry-grid {
+  display: flex;
+  margin-left: -32px;
+  width: auto;
+}
+
+.organic-masonry-column {
+  padding-left: 32px;
+  background-clip: padding-box;
+}
+
+.organic-photo-card {
+  animation: organicFadeIn 1s ease forwards;
+  opacity: 0;
+  transform: translateY(40px);
+  break-inside: avoid;
+}
+
+.organic-photo-card:hover {
+  transform: translateY(-12px);
+  z-index: 10;
+}
+
+@keyframes organicFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.organic-photo-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.organic-photo-card p {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .organic-gallery-container {
+    padding: 0 1rem;
+  }
+  .organic-masonry-grid {
+    margin-left: -16px;
+  }
+  .organic-masonry-column {
+    padding-left: 16px;
+  }
+  .organic-photo-card {
+    margin-bottom: 24px;
+  }
+}
+
+/* Story Page Typography */
+.story-page {
+  font-family: 'Inter', sans-serif;
+}
+
+.story-page h1,
+.story-page h2,
+.story-page h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.story-page .hero-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+}
+
+.story-page .section-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.3;
+}
+
+.story-page .body-text {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.7;
+}
+
+.story-page .lead-text {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  line-height: 1.6;
+}
+
+/* Map */
+.map-wrapper {
+  margin: 2rem auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+.map-wrapper iframe {
+  width: 100%;
+  height: 350px;
+  border: none;
+  border-radius: 16px;
+  filter: grayscale(30%) contrast(1.2);
+  transition: filter 0.3s;
+}
+.map-wrapper iframe:hover {
+  filter: grayscale(0%);
+}
