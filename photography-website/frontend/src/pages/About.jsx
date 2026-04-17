@@ -16,7 +16,7 @@ import ReactPlayer from "react-player";
 import studio1 from "@/assets/custom/webp-images/studio1.webp";
 import studio2 from "@/assets/custom/webp-images/studio2.webp";
 import studio3 from "@/assets/custom/webp-images/studio3.webp";
-import abouthero from "@/assets/custom/about-hero.MP4";
+const abouthero = "https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/about/hero.mp4";
 import about from "@/assets/custom/webp-images/about2.webp";
 import family from "@/assets/custom/webp-images/family.webp";
 import LazyImage from '@/components/common/LazyImage';
