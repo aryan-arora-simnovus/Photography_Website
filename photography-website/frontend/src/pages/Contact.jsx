@@ -41,9 +41,14 @@ const Field = ({ label, error, children }) => (
   </label>
 );
 
-/** There is no backend, so an enquiry opens the visitor's email app with everything filled in. */
-const buildMailto = (d) => {
-  const lines = [
+/**
+ * Formspree form ID (the part after https://formspree.io/f/). Enquiries are posted there and
+ * Formspree emails them to Tanvi. Leave empty to fall back to opening the visitor's email app.
+ */
+const FORMSPREE_FORM_ID = '';
+
+const enquiryLines = (d) =>
+  [
     `Name: ${d.name}`,
     `Email: ${d.email}`,
     d.phone ? `Phone: ${d.phone}` : null,
@@ -52,22 +57,59 @@ const buildMailto = (d) => {
     '',
     d.message,
   ].filter((l) => l !== null);
-  const subject = `Session enquiry — ${d.inquiry_type} — ${d.name}`;
-  return `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+
+const enquirySubject = (d) => `Session enquiry — ${d.inquiry_type} — ${d.name}`;
+
+const buildMailto = (d) =>
+  `mailto:${EMAIL}?subject=${encodeURIComponent(enquirySubject(d))}&body=${encodeURIComponent(enquiryLines(d).join('\n'))}`;
+
+const sendToFormspree = async (d) => {
+  const res = await fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      name: d.name,
+      email: d.email,
+      phone: d.phone || '',
+      session: d.inquiry_type,
+      preferred_date: d.preferred_date || '',
+      message: d.message,
+      _subject: enquirySubject(d),
+    }),
+  });
+  if (!res.ok) throw new Error(`Formspree responded ${res.status}`);
 };
 
 const Contact = () => {
-  const [sentTo, setSentTo] = useState(null);
+  // status: 'idle' | 'sending' | 'sent' (Formspree) | 'mailto' (email app opened) | 'error'
+  const [status, setStatus] = useState('idle');
+  const [lastEnquiry, setLastEnquiry] = useState(null);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ resolver: zodResolver(contactSchema) });
 
-  const onSubmit = (data) => {
-    window.location.href = buildMailto(data);
-    setSentTo(data.name.split(' ')[0]);
+  const onSubmit = async (data) => {
+    setLastEnquiry(data);
+    if (!FORMSPREE_FORM_ID) {
+      window.location.href = buildMailto(data);
+      setStatus('mailto');
+      return;
+    }
+    setStatus('sending');
+    try {
+      await sendToFormspree(data);
+      reset();
+      setStatus('sent');
+    } catch {
+      setStatus('error');
+    }
   };
+
+  const firstName = lastEnquiry?.name.split(' ')[0];
+  const done = status === 'sent' || status === 'mailto';
 
   return (
     <div className="bg-ivory text-ink font-body text-[17px] leading-[1.65] pt-20">
@@ -100,20 +142,28 @@ const Contact = () => {
 
         <div className="flex-[1.2_1_460px] min-w-0">
           <div className="bg-paper rounded-md p-[clamp(28px,4vw,56px)]">
-            {sentTo ? (
+            {done ? (
               <div className="ed-fade py-10" aria-live="polite">
-                <p className="ed-cap text-clay mb-4">Almost there</p>
-                <h2 className="font-display font-normal text-[48px] leading-none m-0 mb-5">Thank you, <em>{sentTo}.</em></h2>
-                <p className="text-[#4A433D] mb-4">
-                  Your email app should have opened with your enquiry ready to go — just press send and Tanvi will get
-                  back to you.
-                </p>
-                <p className="text-stone text-[15px] mb-8">
-                  Nothing opened? Email <a href={`mailto:${EMAIL}`} className="ed-ul text-ink">{EMAIL}</a> directly or
-                  message <a href="https://www.instagram.com/snippetsbytanvi/" target="_blank" rel="noopener noreferrer" className="ed-ul text-ink">@snippetsbytanvi</a> on Instagram.
-                </p>
-                <button type="button" onClick={() => setSentTo(null)} className="ed-ul text-[15px] text-ink">
-                  Back to the form
+                <p className="ed-cap text-clay mb-4">{status === 'sent' ? 'Enquiry sent' : 'Almost there'}</p>
+                <h2 className="font-display font-normal text-[48px] leading-none m-0 mb-5">Thank you, <em>{firstName}.</em></h2>
+                {status === 'sent' ? (
+                  <p className="text-[#4A433D] mb-8">
+                    Your enquiry is with Tanvi, and she&apos;ll reply to {lastEnquiry.email} soon.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-[#4A433D] mb-4">
+                      Your email app should have opened with your enquiry ready to go — just press send and Tanvi will
+                      get back to you.
+                    </p>
+                    <p className="text-stone text-[15px] mb-8">
+                      Nothing opened? Email <a href={`mailto:${EMAIL}`} className="ed-ul text-ink">{EMAIL}</a> directly or
+                      message <a href="https://www.instagram.com/snippetsbytanvi/" target="_blank" rel="noopener noreferrer" className="ed-ul text-ink">@snippetsbytanvi</a> on Instagram.
+                    </p>
+                  </>
+                )}
+                <button type="button" onClick={() => setStatus('idle')} className="ed-ul text-[15px] text-ink">
+                  {status === 'sent' ? 'Send another enquiry' : 'Back to the form'}
                 </button>
               </div>
             ) : (
@@ -143,14 +193,23 @@ const Contact = () => {
                 <Field label="Share your story *" error={errors.message?.message}>
                   <textarea {...register('message')} rows={5} className={`${fieldClass} resize-y`} placeholder="Tell me about your family, the moment you'd love to capture, and any ideas you have…" />
                 </Field>
+                {status === 'error' && (
+                  <p className="m-0 text-[15px] text-[#A3361F]" role="alert">
+                    Sorry — your enquiry didn&apos;t go through. Please try again, or{' '}
+                    <a href={buildMailto(lastEnquiry)} className="underline">send it by email instead</a>.
+                  </p>
+                )}
                 <button
                   type="submit"
-                  className="group justify-self-start inline-flex items-center gap-3 min-h-[56px] px-[34px] rounded-full bg-ink text-ivory text-[15px] font-medium tracking-[0.04em] hover:bg-clay"
+                  disabled={status === 'sending'}
+                  className="group justify-self-start inline-flex items-center gap-3 min-h-[56px] px-[34px] rounded-full bg-ink text-ivory text-[15px] font-medium tracking-[0.04em] hover:bg-clay disabled:opacity-60 disabled:cursor-wait"
                 >
-                  Send enquiry
+                  {status === 'sending' ? 'Sending…' : 'Send enquiry'}
                   <ArrowRight className="w-[18px] h-[18px] transition-transform group-hover:translate-x-1" strokeWidth={1.5} />
                 </button>
-                <p className="m-0 -mt-4 text-[14px] text-stone">This opens your email app with your message ready to send.</p>
+                {!FORMSPREE_FORM_ID && (
+                  <p className="m-0 -mt-4 text-[14px] text-stone">This opens your email app with your message ready to send.</p>
+                )}
               </form>
             )}
           </div>
