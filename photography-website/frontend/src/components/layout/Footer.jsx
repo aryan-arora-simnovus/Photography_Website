@@ -1,127 +1,57 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, Mail, Phone, MapPin, Instagram, Facebook, Heart } from 'lucide-react';
-import AnimatedSignature from '../common/AnimatedSignature';
+
+const columnTitle = 'text-[12px] tracking-[0.22em] uppercase font-medium text-clay mb-4';
+const footerLink = 'block py-1 text-ink hover:text-clay no-underline';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-nature-forest text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand Section */}
-          <div className="space-y-4">
-            <Link to="/" className="flex items-center space-x-2">
-              <Camera className="h-8 w-8 text-nature-sage" />
-              <span className="text-xl font-serif font-semibold">
-                Snippets By Tanvi
-              </span>
+    <footer className="bg-ivory text-ink font-body text-[15px] border-t border-line">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-8 pt-20 pb-10">
+        <div className="flex flex-wrap gap-x-16 gap-y-12 justify-between">
+          <div className="flex-[1.4_1_280px] max-w-[420px]">
+            <Link to="/" className="font-display text-[44px] leading-none text-ink hover:text-ink no-underline">
+              Snippets <em>by Tanvi</em>
             </Link>
-            <p className="text-nature-sage leading-relaxed">
-              Capturing life's most precious moments through the lens of creativity and love. 
-              Specializing in maternity, newborn, and family photography.
+            <p className="mt-5 text-stone leading-relaxed">
+              Moments of love, laughter &amp; everything in between. Maternity, newborn, milestone and family
+              photography — lifestyle, commercial &amp; films.
             </p>
-            <div className="flex space-x-4">
-              <a 
-                href="https://www.instagram.com/snippetsbytanvi/?hl=en" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-nature-sage hover:text-white transition-colors"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
-          
-
-            </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-serif font-semibold">Quick Links</h3>
-            <div className="space-y-2">
-              <Link 
-                to="/" 
-                className="block text-nature-sage hover:text-white transition-colors"
-              >
-                Home
-              </Link>
-              <Link 
-                to="/about" 
-                className="block text-nature-sage hover:text-white transition-colors"
-              >
-                About
-              </Link>
-              
-              <Link 
-                to="/contact" 
-                className="block text-nature-sage hover:text-white transition-colors"
-              >
-                Contact
-              </Link>
-            </div>
+          <div className="flex-[1_1_160px]">
+            <p className={columnTitle}>Explore</p>
+            <Link to="/#work" className={footerLink}>Portfolio</Link>
+            <Link to="/#stories" className={footerLink}>Stories</Link>
+            <Link to="/about" className={footerLink}>About</Link>
+            <Link to="/contact" className={footerLink}>Book a session</Link>
           </div>
 
-
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-serif font-semibold">Get In Touch</h3>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Mail className="h-4 w-4 text-nature-sage" />
-                <a 
-                  href="mailto:snippetsbytanvi@gmail.com"
-                  className="text-nature-sage hover:text-white transition-colors"
-                >
-                  snippetsbytanvi@gmail.com
-                </a>
-              </div>
-            
-              <div className="flex items-start space-x-2">
-                <MapPin className="h-4 w-4 text-nature-sage mt-0.5" />
-                <span className="text-nature-sage">
-                  Surat, Gujarat<br />
-                  Available for travel
-                </span>
-              </div>
-            </div>
+          <div className="flex-[1_1_200px]">
+            <p className={columnTitle}>Say hello</p>
+            <a href="mailto:snippetsbytanvi@gmail.com" className={footerLink}>snippetsbytanvi@gmail.com</a>
+            <a href="https://www.instagram.com/snippetsbytanvi/" target="_blank" rel="noopener noreferrer" className={footerLink}>
+              Instagram — @snippetsbytanvi
+            </a>
+            <p className="mt-3 text-stone">Surat, Gujarat · available for travel</p>
           </div>
-          {/* Gift Vouchers Section */}
-<div className="space-y-4">
-  <h3 className="text-lg font-serif font-semibold">Gift Memories</h3>
-  <p className="text-nature-sage leading-relaxed">
-    Gift your loved ones the joy of timeless memories with a <strong>Snippets by Tanvi</strong> photography gift voucher.
-  </p>
-  <p className="text-nature-sage text-sm italic">
-    Beautifully packaged & valid for all session types.
-  </p>
-  <a 
-    href="/contact" 
-    className="inline-block text-sm font-medium text-white bg-nature-sage px-4 py-2 rounded hover:bg-white hover:text-nature-forest transition-all duration-200"
-  >
-    Enquire Now
-  </a>
-</div>
 
+          <div className="flex-[1_1_220px] max-w-[300px]">
+            <p className={columnTitle}>Gift memories</p>
+            <p className="text-stone leading-relaxed">
+              A Snippets photography gift voucher — beautifully packaged and valid for all session types.
+            </p>
+            <Link to="/contact" className="inline-block mt-3 text-ink border-b border-ink hover:text-clay hover:border-clay no-underline">
+              Enquire about vouchers
+            </Link>
+          </div>
         </div>
 
-
-        
-        <div className="border-t border-nature-sage/20 mt-8 pt-8">
-          {/* Animated Signature */}
-          <div className="flex justify-center mb-6">
-            <AnimatedSignature color="#a6b697" className="relative" />
-          </div>
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-nature-sage text-sm">
-              © {currentYear} Snippets By Tanvi. All rights reserved.
-            </p>
-            <p className="text-nature-sage text-sm flex items-center space-x-1 mt-2 md:mt-0">
-              <span>Made with</span>
-              <Heart className="h-4 w-4 text-red-400" />
-              <span>for capturing memories</span>
-            </p>
-          </div>
+        <div className="mt-16 pt-6 border-t border-line flex flex-wrap justify-between gap-3 text-[13px] text-stone">
+          <p className="m-0">© {currentYear} Snippets by Tanvi. All rights reserved.</p>
+          <p className="m-0">Photography is the beauty of life captured.</p>
         </div>
       </div>
     </footer>

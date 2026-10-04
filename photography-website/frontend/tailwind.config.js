@@ -17,6 +17,14 @@ module.exports = {
     },
     extend: {
       colors: {
+        // Editorial palette (2026 redesign)
+        ink: '#26221F',
+        ivory: '#F5F1EA',
+        sand: '#EAE3D8',
+        paper: '#FBF9F5',
+        clay: '#8E4A33',
+        stone: '#6B635B',
+        line: '#D8CFC2',
         // Nature Harmony Palette
         nature: {
           moss: '#7a876f',
@@ -79,6 +87,8 @@ module.exports = {
         serif: ['Cormorant Garamond', 'serif'],
         sans: ['Inter', 'sans-serif'],
         accent: ['Montserrat', 'sans-serif'],
+        display: ['"Instrument Serif"', 'Georgia', 'serif'],
+        body: ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
