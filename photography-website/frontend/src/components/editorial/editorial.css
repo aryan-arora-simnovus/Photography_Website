@@ -1,0 +1,120 @@
+/* Editorial homepage — motion and effects that Tailwind utilities can't express cleanly. */
+
+.ed-cap {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.ed-ul {
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.4s;
+  padding-bottom: 2px;
+}
+.ed-ul:hover,
+.ed-ul:focus-visible {
+  background-size: 100% 1px;
+}
+
+.ed-rise {
+  animation: ed-rise 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes ed-rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Hero slideshow: each new photo wipes up over the previous one. */
+.ed-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px 999px 0 0;
+  background: #e6ded2;
+}
+.ed-slide {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(100% 0 0 0);
+  z-index: 0;
+}
+.ed-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.12);
+  transition: transform 6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.ed-slide.is-prev { clip-path: inset(0); z-index: 1; }
+.ed-slide.is-on {
+  clip-path: inset(0);
+  z-index: 2;
+  transition: clip-path 1.5s cubic-bezier(0.75, 0, 0.2, 1);
+}
+.ed-slide.is-on img,
+.ed-slide.is-prev img { transform: scale(1); }
+
+/* "The work" list with a photo that follows the cursor. */
+.ed-list:hover .ed-row { opacity: 0.32; }
+.ed-row {
+  transition: opacity 0.35s, padding 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.ed-list .ed-row:hover,
+.ed-list .ed-row:focus-visible {
+  opacity: 1;
+  padding-left: 28px;
+}
+.ed-peek {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 300px;
+  aspect-ratio: 4 / 5;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+  border-radius: 4px;
+  opacity: 0;
+  transform: translate(-50%, -60%) rotate(-3deg) scale(0.85);
+  transition: opacity 0.35s, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+    left 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), top 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  box-shadow: 0 30px 60px -30px rgba(38, 34, 31, 0.55);
+}
+.ed-peek.is-on {
+  opacity: 1;
+  transform: translate(-50%, -60%) rotate(-3deg) scale(1);
+}
+.ed-peek img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Stories rail */
+.ed-rail {
+  display: flex;
+  gap: 28px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 8px;
+}
+.ed-rail::-webkit-scrollbar { display: none; }
+
+.ed-zoom img { transition: transform 1.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.ed-zoom:hover img { transform: scale(1.05); }
+
+.ed-fade { animation: ed-fade 0.9s ease both; }
+@keyframes ed-fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (hover: none) {
+  .ed-peek { display: none; }
+  .ed-list:hover .ed-row { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-rise, .ed-fade { animation: none; }
+  .ed-slide.is-on { transition: none; }
+  .ed-slide img, .ed-zoom img { transition: none; }
+}

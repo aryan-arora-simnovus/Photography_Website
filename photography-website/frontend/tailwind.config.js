@@ -17,13 +17,22 @@ module.exports = {
     },
     extend: {
       colors: {
+        // Editorial palette (2026 redesign)
+        ink: '#26221F',
+        ivory: '#F5F1EA',
+        sand: '#EAE3D8',
+        paper: '#FBF9F5',
+        clay: '#8E4A33',
+        stone: '#6B635B',
+        line: '#D8CFC2',
         // Nature Harmony Palette
+        // Legacy names kept for older pages, remapped onto the editorial palette.
         nature: {
-          moss: '#7a876f',
-          sage: '#a6b697',
-          green: '#c2cea7',
-          cream: '#f8f9f5',
-          forest: '#5f7470'
+          moss: '#8E4A33',
+          sage: '#B9AE9F',
+          green: '#EAE3D8',
+          cream: '#F5F1EA',
+          forest: '#26221F'
         },
         // Peach Fuzz Modern Palette
         peach: {
@@ -76,9 +85,11 @@ module.exports = {
         },
       },
       fontFamily: {
-        serif: ['Cormorant Garamond', 'serif'],
-        sans: ['Inter', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+        sans: ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
         accent: ['Montserrat', 'sans-serif'],
+        display: ['"Instrument Serif"', 'Georgia', 'serif'],
+        body: ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
