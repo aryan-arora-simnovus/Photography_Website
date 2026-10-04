@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -53,6 +53,10 @@
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif;
+  }
+  /* Instrument Serif has a single weight; render it as drawn instead of faux-bolding. */
+  h1, h2, h3, h4, h5, h6, .font-serif, .font-display {
+    font-synthesis: none;
   }
 }
 
@@ -215,13 +219,13 @@
 }
 
 .creative-card h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 300;
   letter-spacing: 0.5px;
 }
 
 .creative-card p {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
   font-weight: 300;
 }
 
@@ -314,13 +318,13 @@
 }
 
 .organic-photo-card h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 300;
   letter-spacing: 1px;
 }
 
 .organic-photo-card p {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
   font-weight: 300;
   line-height: 1.7;
 }
@@ -342,13 +346,13 @@
 
 /* Story Page Typography */
 .story-page {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
 }
 
 .story-page h1,
 .story-page h2,
 .story-page h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 300;
   letter-spacing: -0.02em;
 }

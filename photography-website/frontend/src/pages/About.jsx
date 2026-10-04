@@ -1,373 +1,230 @@
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
-import {
-  Camera,
-  Heart,
-  Award,
-  Users,
-  Clock,
-  MapPin,
-  Star,
-} from "lucide-react";
-import ReactPlayer from "react-player";
-import studio1 from "@/assets/custom/webp-images/studio1.webp";
-import studio2 from "@/assets/custom/webp-images/studio2.webp";
-import studio3 from "@/assets/custom/webp-images/studio3.webp";
-const abouthero = "https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/about/hero.mp4";
-import about from "@/assets/custom/webp-images/about2.webp";
-import family from "@/assets/custom/webp-images/family.webp";
-import LazyImage from '@/components/common/LazyImage';
-import { useInView } from "../hooks/useInView";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import ContactBanner from '@/components/editorial/ContactBanner';
+import studio1 from '@/assets/custom/webp-images/studio1.webp';
+import studio2 from '@/assets/custom/webp-images/studio2.webp';
+import studio3 from '@/assets/custom/webp-images/studio3.webp';
+import family from '@/assets/custom/webp-images/family.webp';
+import portrait from '@/assets/custom/home/about2.webp';
 
-const About = () => {
-  // Animation Refs
-  const [heroRef, heroInView] = useInView();
-  const [videoRef, videoInView] = useInView();
-  const [achievementsRef, achievementsInView] = useInView();
-  const [philosophyRef, philosophyInView] = useInView();
-  const [studioRef, studioInView] = useInView();
-  const [servicesRef, servicesInView] = useInView();
+const aboutVideo = 'https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/about/hero.mp4';
 
-  const achievements = [
-    {
-      icon: Award,
-      title: "5+ Years Experience",
-      description: "Specializing in maternity, newborn, and family photography",
-    },
-    {
-      icon: Users,
-      title: "500+ Happy Families",
-      description: "Capturing precious moments for families across India",
-    },
-    {
-      icon: Star,
-      title: "5-Star Reviews",
-      description: "Consistently rated excellent by satisfied clients",
-    },
-    {
-      icon: Heart,
-      title: "Certified Professional",
-      description: "Professional Photographer",
-    },
-  ];
+const stats = [
+  ['5+', 'Years of experience', 'Maternity, newborn and family photography'],
+  ['500+', 'Happy families', 'Precious moments for families across India'],
+  ['5★', 'Reviews', 'Consistently rated excellent by clients'],
+  ['Certified', 'Professional', 'Professional photographer'],
+];
 
-  const services = [
-    {
-      title: "Baby Blossom (Maternity)",
-      description:
-        "Artistic, soulful portraiture celebrating the radiant magic of motherhood.",
-      features: [
-        "28-36 weeks ideal timing",
-        "Studio or outdoor locations",
-        "Partner included",
-        "Wardrobe consultation",
-      ],
-    },
-    {
-      title: "Newborn Photography",
-      description:
-        "Gentle, safe sessions capturing your baby's first precious days with artistic poses and natural family interactions.",
-      features: [
-        "First 2 weeks ideal",
-        "Home or studio sessions",
-        "Safe posing techniques",
-        "Family photos included",
-      ],
-    },
-    {
-      title: "Milestone Sessions",
-      description:
-        "Documenting your baby's growth journey at 3, 6, 9, and 12 months with playful and developmental-appropriate poses.",
-      features: [
-        "Age-appropriate setups",
-        "Developmental milestones",
-        "Props and themes",
-        "Growth documentation",
-      ],
-    },
-    {
-      title: "Family Portraits",
-      description:
-        "Creating timeless family memories that showcase your unique bond and love, suitable for any season or occasion.",
-      features: [
-        "All family sizes",
-        "Seasonal themes",
-        "Multiple locations",
-        "Extended family welcome",
-      ],
-    },
-  ];
+const services = [
+  {
+    title: 'Baby Blossom',
+    kind: 'Maternity',
+    description: 'Artistic, soulful portraiture celebrating the radiant magic of motherhood.',
+    features: ['28–36 weeks ideal timing', 'Studio or outdoor locations', 'Partner included', 'Wardrobe consultation'],
+  },
+  {
+    title: 'Newborn',
+    kind: 'First weeks',
+    description: "Gentle, safe sessions capturing your baby's first precious days with artistic poses and natural family interactions.",
+    features: ['First 2 weeks ideal', 'Home or studio sessions', 'Safe posing techniques', 'Family photos included'],
+  },
+  {
+    title: 'Milestones',
+    kind: '3 · 6 · 9 · 12 months',
+    description: "Documenting your baby's growth at 3, 6, 9 and 12 months with playful, age-appropriate setups.",
+    features: ['Age-appropriate setups', 'Developmental milestones', 'Props and themes', 'Growth documentation'],
+  },
+  {
+    title: 'Family Portraits',
+    kind: 'Every size',
+    description: 'Timeless family memories that show your unique bond, for any season or occasion.',
+    features: ['All family sizes', 'Seasonal themes', 'Multiple locations', 'Extended family welcome'],
+  },
+];
 
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section ref={heroRef} className="bg-nature-cream py-20 overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className={`transition-all duration-1000 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
-              <h1 className="text-4xl md:text-5xl font-serif font-bold text-nature-forest mb-6">
-                Hello, I'm Tanvi
-              </h1>
-              <p className="text-xl text-gray-700 leading-relaxed mb-6">
-                A passionate photographer dedicated to capturing life's most
-                precious moments with artistry, patience, and love.
-              </p>
-              <p className="text-lg text-gray-600 leading-relaxed mb-8">
-                For over 5 years, I've had the privilege of documenting the
-                beautiful journey of growing families - from the anticipation of
-                pregnancy to the joy of new life and the wonder of childhood
-                milestones. Every session is a celebration of love, connection,
-                and the unique story that makes your family special.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-nature-moss hover:bg-nature-forest transition-all-refined"
-                >
-                  <Link to="/contact">Book Your Session</Link>
-                </Button>
-              </div>
+const About = () => (
+  <div className="bg-ivory text-ink font-body text-[17px] leading-[1.65] overflow-hidden pt-20">
+    {/* Intro */}
+    <section className="max-w-[1360px] mx-auto px-6 md:px-8 pt-10 pb-28 flex flex-wrap gap-16 items-center">
+      <div className="flex-[1.2_1_420px] min-w-0">
+        <p className="ed-cap ed-rise text-clay mb-7">About</p>
+        <h1 className="ed-rise font-display font-normal m-0 text-[clamp(56px,7vw,116px)] leading-[0.95] tracking-[-0.02em]" style={{ animationDelay: '.15s' }}>
+          Hello, I&apos;m <em>Tanvi.</em>
+        </h1>
+        <p className="ed-rise mt-8 mb-5 max-w-[560px] text-[21px] text-[#3A342F]" style={{ animationDelay: '.3s' }}>
+          A passionate photographer dedicated to capturing life&apos;s most precious moments with artistry, patience and
+          love.
+        </p>
+        <p className="ed-rise mb-10 max-w-[560px] text-[#4A433D]" style={{ animationDelay: '.4s' }}>
+          For over five years I&apos;ve had the privilege of documenting the journey of growing families — from the
+          anticipation of pregnancy to the joy of new life and the wonder of childhood milestones. Every session is a
+          celebration of love, connection, and the story that makes your family yours.
+        </p>
+        <Link
+          to="/contact"
+          className="ed-rise group inline-flex items-center gap-3 min-h-[52px] px-[30px] rounded-full bg-ink text-ivory text-[15px] font-medium tracking-[0.04em] hover:bg-clay hover:text-ivory"
+          style={{ animationDelay: '.5s' }}
+        >
+          Book a session
+          <ArrowRight className="w-[18px] h-[18px] transition-transform group-hover:translate-x-1" strokeWidth={1.5} />
+        </Link>
+      </div>
+      <div className="flex-[1_1_340px] min-w-0 max-w-[480px] mx-auto">
+        <div className="aspect-[4/5] overflow-hidden rounded-t-full rounded-b">
+          <img src={portrait} alt="Tanvi with her camera, in black and white" className="block w-full h-full object-cover" />
+        </div>
+      </div>
+    </section>
+
+    {/* Film + words */}
+    <section className="bg-paper py-[120px]">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-8 flex flex-wrap gap-16 items-center">
+        <div className="flex-[1.2_1_440px] min-w-0">
+          <video
+            src={aboutVideo}
+            controls
+            playsInline
+            preload="metadata"
+            className="block w-full aspect-[4/5] sm:aspect-[16/11] object-cover rounded bg-sand"
+          >
+            <track kind="captions" />
+          </video>
+        </div>
+        <div className="flex-[1_1_380px] min-w-0">
+          <p className="ed-cap text-clay mb-5">Behind the lens</p>
+          <h2 className="font-display font-normal m-0 mb-7 text-[clamp(34px,3.6vw,52px)] leading-[1.08] tracking-[-0.01em]">
+            “Hi, I&apos;m Tanvi — the heart and soul behind the lens at <em>Snippets by Tanvi.</em>”
+          </h2>
+          <p className="mb-5 text-[#3A342F]">
+            Photography for me isn&apos;t just about clicking pictures — it&apos;s about preserving feelings, phases, and
+            fleeting moments that often pass us by. Whether it&apos;s the delicate glow of a mother-to-be, the yawn of a
+            newborn, or the burst of laughter in a family hug, I strive to turn those snippets into timeless visual
+            stories.
+          </p>
+          <p className="font-display italic text-[24px] leading-[1.35] text-[#3A342F] m-0">
+            Over the years, I&apos;ve been blessed to work with wonderful families, expecting parents, giggling toddlers,
+            and couples deeply in love.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* Why families choose me */}
+    <section className="max-w-[1360px] mx-auto px-6 md:px-8 py-[120px]">
+      <div className="flex flex-wrap justify-between items-end gap-5 mb-12">
+        <h2 className="font-display font-normal m-0 text-[clamp(40px,4.6vw,68px)] leading-none tracking-[-0.01em]">
+          Why families <em>choose me</em>
+        </h2>
+        <p className="m-0 max-w-[420px] text-stone text-[15px]">
+          Experience, dedication, and a gentle approach that puts families at ease.
+        </p>
+      </div>
+      <dl className="grid sm:grid-cols-2 lg:grid-cols-4 border-t border-line m-0">
+        {stats.map(([value, label, note]) => (
+          <div key={label} className="flex flex-col-reverse py-8 pr-6 border-b border-line lg:border-b-0">
+            <dd className="m-0 mt-2 text-stone text-[15px]">{note}</dd>
+            <dt className="ed-cap text-ink mt-3">{label}</dt>
+            <dd className="m-0 font-display text-[60px] leading-none">{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    {/* Philosophy */}
+    <section className="bg-sand py-[120px]">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-8 flex flex-wrap gap-16 items-center">
+        <div className="flex-[1_1_380px] min-w-0">
+          <div className="aspect-[4/5] overflow-hidden rounded">
+            <img src={family} alt="A large family posed together" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+          </div>
+        </div>
+        <div className="flex-[1.1_1_420px] min-w-0">
+          <p className="ed-cap text-clay mb-5">Philosophy</p>
+          <h2 className="font-display font-normal m-0 mb-7 text-[clamp(40px,4.6vw,68px)] leading-none tracking-[-0.01em]">
+            Comfortable, relaxed, <em>truly yourselves.</em>
+          </h2>
+          <p className="mb-10 max-w-[560px] text-[#3A342F]">
+            I believe the most beautiful photographs happen when families feel comfortable, relaxed and truly
+            themselves. My approach is gentle and patient, creating space for natural emotions and connections to unfold.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-8 border-t border-[#CFC4B5] pt-8">
+            <div>
+              <h3 className="font-display font-normal text-[28px] m-0 mb-1">Flexible timing</h3>
+              <p className="m-0 text-stone text-[15px]">Sessions adapt to your baby&apos;s unique schedule.</p>
             </div>
-            <div className={`relative transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
-              <div className="bg-nature-sage/20 rounded-2xl p-8">
-                <LazyImage
-                  src={about}
-                  alt="Tanvi - Professional Photographer"
-                  className="rounded-xl shadow-lg w-full"
-                />
-              </div>
+            <div>
+              <h3 className="font-display font-normal text-[28px] m-0 mb-1">Your choice</h3>
+              <p className="m-0 text-stone text-[15px]">Studio or outdoor — wherever you feel at home.</p>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* Video Section */}
-      <section ref={videoRef} className="py-20 bg-gradient-to-br from-nature-cream to-white overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className={`relative transition-all duration-1000 ${videoInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-              <div className="w-full h-[300px] sm:h-[400px] lg:h-[500px] xl:h-[580px] rounded-2xl overflow-hidden shadow-2xl">
-                <ReactPlayer
-                  url={abouthero}
-                  controls
-                  width="100%"
-                  height="100%"
-                  className="absolute top-0 left-0 rounded-2xl"
-                />
+    {/* Studio */}
+    <section className="max-w-[1360px] mx-auto px-6 md:px-8 py-[120px]">
+      <div className="text-center mb-14">
+        <p className="ed-cap text-clay mb-3.5">The studio</p>
+        <h2 className="font-display font-normal mx-auto max-w-[760px] m-0 text-[clamp(40px,4.6vw,68px)] leading-[1.02] tracking-[-0.01em]">
+          The heart of our <em>creative home</em>
+        </h2>
+        <p className="mx-auto mt-5 max-w-[560px] text-stone">
+          Designed to feel like home, our space embraces natural textures, cosy corners, and a touch of magic for every
+          session.
+        </p>
+      </div>
+      <div className="ed-zoom aspect-[16/9] overflow-hidden rounded mb-7">
+        <img src={studio2} alt="The Snippets studio interior" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+      </div>
+      <div className="grid md:grid-cols-2 gap-7">
+        <div className="ed-zoom aspect-[4/3] overflow-hidden rounded">
+          <img src={studio1} alt="A studio set with a cyclorama wall" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+        </div>
+        <div className="ed-zoom aspect-[4/3] overflow-hidden rounded">
+          <img src={studio3} alt="Studio decor and shelving" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+        </div>
+      </div>
+    </section>
+
+    {/* Services */}
+    <section className="bg-paper py-[120px]">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-8">
+        <div className="flex flex-wrap justify-between items-end gap-5 mb-12">
+          <h2 className="font-display font-normal m-0 text-[clamp(40px,4.6vw,68px)] leading-none tracking-[-0.01em]">
+            Photography <em>services</em>
+          </h2>
+          <p className="m-0 max-w-[420px] text-stone text-[15px]">
+            Specialising in documenting your family&apos;s journey with artistry and care.
+          </p>
+        </div>
+        <div className="border-t border-line">
+          {services.map((s, i) => (
+            <article key={s.title} className="grid md:grid-cols-[80px_1.1fr_1fr] gap-x-10 gap-y-4 py-10 border-b border-line">
+              <span className="ed-cap text-[#9A9086] pt-3">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 className="font-display font-normal m-0 text-[clamp(36px,3.8vw,56px)] leading-none">{s.title}</h3>
+                <p className="ed-cap text-clay mt-3 mb-0">{s.kind}</p>
               </div>
-            </div>
-            <div className={`space-y-6 transition-all duration-1000 delay-300 ${videoInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <h2 className="text-4xl font-serif font-bold text-nature-forest">
-                “Hi, I’m Tanvi — the heart and soul behind the lens at Snippets
-                by Tanvi.”
-              </h2>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Photography for me isn’t just about clicking pictures — it’s
-                about preserving feelings, phases, and fleeting moments that
-                often pass us by. Whether it’s the delicate glow of a
-                mother-to-be, the yawn of a newborn, or the burst of laughter in
-                a family hug, I strive to turn those snippets into timeless
-                visual stories.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed font-light italic">
-                Over the years, I’ve been blessed to work with wonderful
-                families, expecting parents, giggling toddlers, and couples
-                deeply in love. What drives me is the connection I build with
-                each of you — understanding your journey and celebrating it with
-                sincerity, creativity, and care.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Achievements */}
-      <section ref={achievementsRef} className="py-20">
-        <div className="container mx-auto px-4">
-          <div className={`text-center mb-16 transition-all duration-700 ${achievementsInView ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-3xl font-serif font-bold text-nature-forest mb-4">
-              Why Families Choose Me
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Experience, dedication, and a gentle approach that puts families
-              at ease while creating beautiful, lasting memories.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {achievements.map((achievement, index) => {
-              const Icon = achievement.icon;
-              return (
-                <div 
-                  key={index} 
-                  className={`transition-all duration-1000 delay-${index * 150} ${achievementsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                >
-                  <Card className="text-center group hover:shadow-lg transition-all duration-300">
-                    <CardContent className="p-6">
-                      <div className="w-16 h-16 bg-nature-cream rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-nature-sage transition-colors">
-                        <Icon className="h-8 w-8 text-nature-moss group-hover:text-white" />
-                      </div>
-                      <h3 className="text-lg font-serif font-semibold text-nature-forest mb-2">
-                        {achievement.title}
-                      </h3>
-                      <p className="text-gray-600 text-sm">
-                        {achievement.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Approach */}
-      <section ref={philosophyRef} className="py-20 bg-nature-cream/50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className={`relative overflow-hidden transition-all duration-1000 ${philosophyInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-              <LazyImage
-                src={family}
-                alt="Photography session in progress"
-                className="rounded-lg shadow-lg"
-              />
-              <div className="absolute -top-4 -right-4 bg-white p-4 rounded-lg shadow-lg animate-float-up delay-1000">
-                <div className="flex items-center space-x-2">
-                  <Heart className="h-6 w-6 text-red-400" />
-                  <span className="font-serif font-semibold text-nature-forest">
-                    Gentle Approach
-                  </span>
-                </div>
+              <div>
+                <p className="mt-0 mb-5 text-[#3A342F]">{s.description}</p>
+                <ul className="flex flex-wrap gap-2 list-none p-0 m-0">
+                  {s.features.map((f) => (
+                    <li key={f} className="px-3.5 py-1.5 rounded-full border border-line text-[14px] text-[#4A433D]">{f}</li>
+                  ))}
+                </ul>
               </div>
-            </div>
-            <div className={`transition-all duration-1000 delay-300 ${philosophyInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <h2 className="text-3xl font-serif font-bold text-nature-forest mb-6">
-                My Photography Philosophy
-              </h2>
-              <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
-                <p>
-                  I believe that the most beautiful photographs happen when
-                  families feel comfortable, relaxed, and truly themselves. My
-                  approach is gentle, patient, and focused on creating an
-                  environment where natural emotions and connections can unfold
-                  organically.
-                </p>
-                <div className="grid grid-cols-2 gap-4 mt-8">
-                  <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                    <Clock className="h-6 w-6 text-nature-moss mb-3" />
-                    <h4 className="font-serif font-semibold text-nature-forest mb-1">
-                      Flexible Timing
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      Sessions adapt to your baby's unique schedule
-                    </p>
-                  </div>
-                  <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                    <MapPin className="h-6 w-6 text-nature-moss mb-3" />
-                    <h4 className="font-serif font-semibold text-nature-forest mb-1">
-                      Your Choice
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      Studio or outdoor; wherever you feel home
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </article>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* Studio Section */}
-      <section ref={studioRef} className="py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className={`text-center mb-16 transition-all duration-1000 ${studioInView ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-4xl md:text-5xl font-semibold mb-6 text-nature-forest">
-              The Heart of Our Creative Home
-            </h2>
-            <p className="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 leading-relaxed">
-              Designed to feel like home, our space embraces natural textures, 
-              cozy corners, and a touch of magic for every session.
-            </p>
-          </div>
-
-          <div className={`w-full h-[500px] mb-12 rounded-2xl overflow-hidden shadow-xl transition-all duration-1000 delay-200 ${studioInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-            <LazyImage
-              src={studio2}
-              alt="Studio Interior"
-              className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
-            />
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className={`w-full md:w-1/2 h-[450px] rounded-2xl overflow-hidden shadow-xl transition-all duration-1000 delay-400 ${studioInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
-              <LazyImage
-                src={studio1}
-                alt="Studio Setup"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-              />
-            </div>
-            <div className={`w-full md:w-1/2 h-[450px] rounded-2xl overflow-hidden shadow-xl transition-all duration-1000 delay-600 ${studioInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
-              <LazyImage
-                src={studio3}
-                alt="Studio Decor"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Grid */}
-      <section ref={servicesRef} className="py-20 bg-nature-cream/20">
-        <div className="container mx-auto px-4">
-          <div className={`text-center mb-16 transition-all duration-700 ${servicesInView ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-3xl font-serif font-bold text-nature-forest mb-4">
-              Photography Services
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Specializing in documenting your family's journey with artistry and care.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {services.map((service, index) => (
-              <div 
-                key={index} 
-                className={`transition-all duration-1000 delay-${index * 150} ${servicesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-              >
-                <Card className="h-full hover:shadow-2xl transition-all duration-500 border-none bg-white">
-                  <CardHeader>
-                    <CardTitle className="text-2xl font-serif text-nature-forest">
-                      {service.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 mb-6 text-lg">{service.description}</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {service.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center space-x-2">
-                          <div className="w-5 h-5 rounded-full bg-nature-sage/20 flex items-center justify-center">
-                            <span className="text-nature-forest text-xs">✓</span>
-                          </div>
-                          <span className="text-sm text-gray-700">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <div className="pt-[120px]">
+      <ContactBanner />
     </div>
-  );
-};
+  </div>
+);
 
 export default About;
