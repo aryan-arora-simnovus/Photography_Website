@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Masonry from 'react-masonry-css';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import FavoriteButton from '@/components/common/FavoriteButton';
 import DownloadButton from '@/components/common/DownloadButton';
