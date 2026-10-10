@@ -130,6 +130,7 @@ export default function EshitaElla() {
             <InlineReel 
               poster={poster} 
               src={reelSrc}
+              aspect="2 / 3"
               className="sticky top-24"
             />
           </div>

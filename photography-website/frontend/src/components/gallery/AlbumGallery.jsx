@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 import { usePhotos } from "../../hooks/usePhotos";
-import { getImageUrl } from "../../utils/imageUtils";
+import LazyImage from "@/components/common/LazyImage";
 
 const AlbumGallery = () => {
   const { categorySlug, albumSlug } = useParams();
@@ -68,7 +68,7 @@ const AlbumGallery = () => {
       {/* Professional Magazine Split Hero */}
       <section className="relative min-h-screen flex flex-col lg:flex-row bg-white overflow-hidden">
         {/* Left Side: Typography & Story */}
-        <div className="w-full lg:w-[40%] p-12 lg:p-24 flex flex-col justify-center relative z-10 bg-white">
+        <div className="w-full lg:flex-1 lg:min-w-0 p-12 lg:p-24 flex flex-col justify-center relative z-10 bg-white">
           <Link
             to={`/category/${categorySlug}/albums`}
             className="inline-flex items-center text-nature-moss/60 hover:text-nature-moss mb-20 transition-all duration-500 uppercase tracking-[0.4em] text-[10px] font-bold group"
@@ -102,13 +102,16 @@ const AlbumGallery = () => {
           </div>
         </div>
 
-        {/* Right Side: Featured Cover Image */}
-        <div className="w-full lg:w-[60%] h-[60vh] lg:h-screen relative overflow-hidden bg-nature-cream/20">
+        {/* Right Side: Featured Cover Image, framed 2:3 like the covers and kept below the fixed header so none of it is hidden */}
+        <div className="w-full aspect-[2/3] lg:w-[min(60vw,calc((100vh-5rem)*2/3))] lg:flex-none lg:self-start lg:mt-20 relative overflow-hidden bg-nature-cream/20">
           {album.photos && album.photos[0] && (
-            <img 
-              src={getImageUrl(album.photos[0].image)} 
-              alt={`${album.client_name} cover`} 
-              className="w-full h-full object-cover"
+            <LazyImage
+              src={album.photos[0].image}
+              aspect="2:3"
+              sizes="(min-width: 1024px) 42vw, 100vw"
+              loading="eager"
+              alt={`${album.client_name} cover`}
+              className="block w-full h-full object-cover"
             />
           )}
           {/* Subtle overlay for depth */}

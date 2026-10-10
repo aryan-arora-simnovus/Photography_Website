@@ -18,14 +18,15 @@ import silhouette from '@/assets/custom/home/anniversary-banner.webp';
 import tanviPortrait from '@/assets/custom/home/about2.webp';
 
 // Slugs match the existing /category/:categorySlug/albums routes.
+// `wide` marks landscape photos, so the hover peek widens to show them whole.
 export const workCategories = [
-  { name: 'Baby Blossom', slug: 'maternity', description: 'Celebrating the glow of motherhood', image: maternityBanner },
+  { name: 'Baby Blossom', slug: 'maternity', description: 'Celebrating the glow of motherhood', image: maternityBanner, wide: true },
   { name: 'Lifestyle Family', slug: 'lifestyle-family-shoots', description: 'Celebrating little milestones', image: momToddlerLaugh },
   { name: 'Pre-Wedding', slug: 'prewedding', description: 'Intimate couple sessions', image: coupleHug },
   { name: 'Studio Sessions', slug: 'studio', description: 'Professional indoor photography', image: studioTutu },
-  { name: 'Big Fam Jam', slug: 'famjam', description: 'Large multi-generational families', image: famjamBanner },
-  { name: 'Events', slug: 'event', description: 'Professional event coverage', image: eventBanner },
-  { name: 'Commercial', slug: 'commercial', description: 'Editorial and artistic vision', image: commercialBanner },
+  { name: 'Big Fam Jam', slug: 'famjam', description: 'Large multi-generational families', image: famjamBanner, wide: true },
+  { name: 'Events', slug: 'event', description: 'Professional event coverage', image: eventBanner, wide: true },
+  { name: 'Commercial', slug: 'commercial', description: 'Editorial and artistic vision', image: commercialBanner, wide: true },
 ];
 
 export const stories = [
@@ -34,31 +35,32 @@ export const stories = [
   { title: 'Styled With Soul', kind: 'Lifestyle', subtitle: 'A lifestyle narrative', to: '/stories/styled-with-soul', image: styledWithSoul, alt: 'Woman in red at home with her French bulldog' },
 ];
 
-// Three columns that drift at different speeds as the page scrolls.
+// Three columns that drift at different speeds as the page scrolls. Each ratio is the photo's own
+// shape, so nothing is cropped; the mix of shapes keeps the column lengths close.
 export const recentFrames = [
   {
     speed: 40,
     frames: [
-      { src: maternityBanner, alt: 'Expectant mother lying among flowers', ratio: '4 / 5' },
+      { src: maternityBanner, alt: 'Expectant mother lying among flowers', ratio: '3 / 2' },
+      { src: studioTutu, alt: 'Toddler in a tutu in the studio', ratio: '2 / 3' },
       { src: bwCouple, alt: 'Couple by a lake in black and white', ratio: '3 / 2' },
-      { src: momWithKids, alt: 'Mother with her two children', ratio: '4 / 5' },
     ],
   },
   {
     speed: -50,
     offset: true,
     frames: [
+      { src: silhouette, alt: 'Silhouette of a mother lifting her baby', ratio: '2 / 3' },
       { src: newbornParents, alt: 'Parents lying with their newborn', ratio: '3 / 2' },
-      { src: liftUp, alt: 'Mother lifting her laughing child', ratio: '4 / 5' },
       { src: picnic, alt: 'Couple picnicking on a lawn', ratio: '3 / 2' },
     ],
   },
   {
     speed: 70,
     frames: [
-      { src: studioTutu, alt: 'Toddler in a tutu in the studio', ratio: '4 / 5' },
-      { src: silhouette, alt: 'Silhouette of a mother lifting her baby', ratio: '4 / 5' },
+      { src: momWithKids, alt: 'Mother with her two children', ratio: '4 / 5' },
       { src: famjamBanner, alt: 'Family running across a lakeside lawn', ratio: '3 / 2' },
+      { src: liftUp, alt: 'Mother lifting her laughing child', ratio: '4 / 5' },
     ],
   },
 ];

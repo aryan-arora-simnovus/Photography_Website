@@ -15,6 +15,9 @@ import {
   about,
 } from '@/components/editorial/homeContent';
 
+// Lines the first story up with the page content; scroll-padding keeps snapping from pulling it to the edge.
+const RAIL_INSET = 'max(24px, calc((100vw - 1296px) / 2))';
+
 const arrowClass =
   'w-[52px] h-[52px] rounded-full border border-ink text-ink inline-flex items-center justify-center hover:bg-ink hover:text-ivory';
 
@@ -72,11 +75,11 @@ const Home = () => {
         <div
           ref={railRef}
           className="ed-rail pr-8"
-          style={{ paddingLeft: 'max(24px, calc((100vw - 1296px) / 2))' }}
+          style={{ paddingLeft: RAIL_INSET, scrollPaddingLeft: RAIL_INSET }}
         >
           {stories.map((s) => (
-            <Link key={s.to} to={s.to} className="ed-zoom flex-[0_0_min(560px,82vw)] snap-start text-ink hover:text-ink no-underline">
-              <span className="block aspect-[4/5] overflow-hidden rounded">
+            <Link key={s.to} to={s.to} className="ed-zoom flex-[0_0_min(480px,80vw)] snap-start text-ink hover:text-ink no-underline">
+              <span className="block aspect-[2/3] overflow-hidden rounded">
                 <img src={s.image} alt={s.alt} loading="lazy" decoding="async" className="block w-full h-full object-cover" />
               </span>
               <span className="flex justify-between items-baseline gap-4 mt-[18px]">
@@ -106,7 +109,7 @@ const Home = () => {
       <section id="about" className="bg-paper py-[120px]">
         <div className="max-w-[1360px] mx-auto px-6 md:px-8 flex flex-wrap gap-[72px] items-center">
           <div className="flex-[1_1_340px] min-w-0 max-w-[480px]">
-            <div className="aspect-[4/5] overflow-hidden rounded-t-full rounded-b">
+            <div className="aspect-[2/3] overflow-hidden rounded-t-full rounded-b">
               <img src={about.portrait} alt="Tanvi with her camera, in black and white" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
             </div>
           </div>

@@ -13,7 +13,7 @@ import 'keen-slider/keen-slider.min.css'
 // Assets
 import Story2Poster from '@/assets/custom/webp-images/megha-neelansh-poster.webp'
 const LoveBanner = 'https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/stories/megha/reel.mp4';
-import Hero from '@/assets/custom/webp-images/megha-mosaic-3.webp' // Your main hero image
+import Hero from './images/megha/webp-images/hero.webp' // Landscape, so it fills the 3:2 hero without cropping
 import LazyImage from '@/components/common/LazyImage';
 import Img1 from '@/assets/custom/webp-images/megha-letter1.webp'
 import Img2 from '@/assets/custom/webp-images/megha-letter2.webp'

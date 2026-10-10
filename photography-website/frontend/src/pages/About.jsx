@@ -72,7 +72,7 @@ const About = () => (
         </Link>
       </div>
       <div className="flex-[1_1_340px] min-w-0 max-w-[480px] mx-auto">
-        <div className="aspect-[4/5] overflow-hidden rounded-t-full rounded-b">
+        <div className="aspect-[2/3] overflow-hidden rounded-t-full rounded-b">
           <img src={portrait} alt="Tanvi with her camera, in black and white" className="block w-full h-full object-cover" />
         </div>
       </div>
@@ -136,7 +136,7 @@ const About = () => (
     <section className="bg-sand py-[120px]">
       <div className="max-w-[1360px] mx-auto px-6 md:px-8 flex flex-wrap gap-16 items-center">
         <div className="flex-[1_1_380px] min-w-0">
-          <div className="aspect-[4/5] overflow-hidden rounded">
+          <div className="aspect-[2/3] overflow-hidden rounded">
             <img src={family} alt="A large family posed together" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
           </div>
         </div>
@@ -175,14 +175,15 @@ const About = () => (
           session.
         </p>
       </div>
-      <div className="ed-zoom aspect-[16/9] overflow-hidden rounded mb-7">
-        <img src={studio2} alt="The Snippets studio interior" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
-      </div>
-      <div className="grid md:grid-cols-2 gap-7">
-        <div className="ed-zoom aspect-[4/3] overflow-hidden rounded">
+      {/* The studio photos are square: one large square beside two small ones, all uncropped. */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-7">
+        <div className="ed-zoom col-span-2 md:row-span-2 aspect-square md:aspect-auto overflow-hidden rounded">
+          <img src={studio2} alt="The Snippets studio interior" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+        </div>
+        <div className="ed-zoom aspect-square overflow-hidden rounded">
           <img src={studio1} alt="A studio set with a cyclorama wall" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
         </div>
-        <div className="ed-zoom aspect-[4/3] overflow-hidden rounded">
+        <div className="ed-zoom aspect-square overflow-hidden rounded">
           <img src={studio3} alt="Studio decor and shelving" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
         </div>
       </div>
