@@ -8,11 +8,13 @@ import FullBleedImage from './FullBleedImage'
 import PullQuote from './PullQuote'
 import InlineReel from './InlineReel'
 import LazyImage from '@/components/common/LazyImage'
+import { cldVideo } from '@/utils/imageUtils'
 
 // Hero & Reel assets
 
 import reelPoster from '@/assets/custom/webp-images/reva-reel-poster.webp'
-const reelSrc = 'https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/stories/aditi-reva/reel.mp4';
+// The reel lives on Cloudinary as stories/reva-reel (the stories/aditi-reva/reel path was never uploaded).
+const reelSrc = cldVideo('https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/stories/reva-reel.mp4');
 
 // Narrative images
 import block1 from '@/assets/custom/webp-images/reva-1.webp'

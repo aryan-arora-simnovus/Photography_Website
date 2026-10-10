@@ -1,69 +1,67 @@
 // components/InlineReel.jsx
-import React, { useState } from 'react';
-import { Play, Volume2, VolumeX } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Play } from 'lucide-react';
 import LazyImage from '@/components/common/LazyImage';
 
 // `aspect` is the poster's shape (CSS ratio); the video letterboxes inside it rather than being cropped.
-export default function InlineReel({ poster, src, className = '', aspect = '9 / 16' }) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+// Without a `src` the card shows just the poster, so a reel that isn't online yet never offers a dead play button.
+export default function InlineReel({ poster, src, className = '', aspect = '9 / 16', alt = 'Still from the film' }) {
+  const videoRef = useRef(null);
+  const [started, setStarted] = useState(false);
   const [w, h] = aspect.split('/').map(Number);
   const isWide = w > h;
+  const frameClass = `relative mx-auto bg-black rounded-2xl overflow-hidden shadow-2xl ${isWide ? '' : 'max-w-sm'} ${className}`;
+
+  if (!src) {
+    return (
+      <div className={frameClass}>
+        <div className="relative w-full" style={{ aspectRatio: aspect }}>
+          <LazyImage src={poster} alt={alt} className="block w-full h-full object-cover" />
+        </div>
+      </div>
+    );
+  }
+
+  // play() runs inside the click itself, so phones allow it to start with sound.
+  const start = () => {
+    setStarted(true);
+    videoRef.current?.play().catch(() => {});
+  };
 
   return (
-    <div className={`relative mx-auto bg-black rounded-2xl overflow-hidden shadow-2xl ${isWide ? '' : 'max-w-sm'} ${className}`}>
+    <div className={frameClass}>
       <div className="relative w-full" style={{ aspectRatio: aspect }}>
-        {isPlaying ? (
-          <div className="relative w-full h-full">
-            <video
-              src={src} 
-              loop
-              muted={isMuted}
-              playsInline
-              className="w-full h-full object-contain"
-            />
-            {/* Video Controls Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                <button
-                  onClick={() => setIsPlaying(false)}
-                  className="bg-white/20 backdrop-blur-sm rounded-full p-2 hover:bg-white/30 transition-colors"
-                >
-                  <Play className="w-4 h-4 text-white" />
-                </button>
-                <button
-                  onClick={() => setIsMuted(!isMuted)}
-                  className="bg-white/20 backdrop-blur-sm rounded-full p-2 hover:bg-white/30 transition-colors"
-                >
-                  {isMuted ? (
-                    <VolumeX className="w-4 h-4 text-white" />
-                  ) : (
-                    <Volume2 className="w-4 h-4 text-white" />
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : (
+        <video
+          ref={videoRef}
+          src={src}
+          preload="none"
+          playsInline
+          loop
+          controls={started}
+          className="block w-full h-full object-contain"
+        />
+        {!started && (
           <button
-            onClick={() => setIsPlaying(true)}
-            className="group relative block w-full h-full focus:outline-none"
+            type="button"
+            onClick={start}
+            aria-label="Play reel"
+            className="group absolute inset-0 block w-full h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <LazyImage
               src={poster}
-              alt="Play reel"
+              alt=""
               className="block w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             {/* Play Button Overlay */}
-            <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors duration-300">
-              <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 group-hover:bg-white transition-colors duration-300">
+            <span className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors duration-300">
+              <span className="bg-white/90 backdrop-blur-sm rounded-full p-4 group-hover:bg-white transition-colors duration-300">
                 <Play className="w-8 h-8 text-gray-800 ml-1" />
-              </div>
-            </div>
+              </span>
+            </span>
             {/* Reel Label */}
-            <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-              <span className="text-sm font-medium text-gray-800">Watch Reel</span>
-            </div>
+            <span className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-800">
+              Watch Reel
+            </span>
           </button>
         )}
       </div>

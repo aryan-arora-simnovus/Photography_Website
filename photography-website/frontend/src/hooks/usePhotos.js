@@ -14,7 +14,10 @@ export const curatePhotos = (folder, photos = []) => {
   if (!order) return visible;
   const rank = new Map(order.map((url, i) => [url, i]));
   return visible
-    .map((p, i) => ({ p, r: rank.has(p.image) ? rank.get(p.image) : order.length + i }))
+    .map((p, i) => {
+      const key = p.image || p.video;
+      return { p, r: rank.has(key) ? rank.get(key) : order.length + i };
+    })
     .sort((a, b) => a.r - b.r)
     .map(({ p }) => p);
 };

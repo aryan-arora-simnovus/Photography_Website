@@ -12,7 +12,9 @@ import 'keen-slider/keen-slider.min.css'
 
 // Assets
 import Story2Poster from '@/assets/custom/webp-images/megha-neelansh-poster.webp'
-const LoveBanner = 'https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/stories/megha/reel.mp4';
+// The reel was never uploaded (stories/megha/reel.mp4 is a 404), so the card shows its poster.
+// Once it is on Cloudinary, put its URL here, wrapped in cldVideo() from '@/utils/imageUtils'.
+const LoveBanner = null;
 import Hero from './images/megha/webp-images/hero.webp' // Landscape, so it fills the 3:2 hero without cropping
 import LazyImage from '@/components/common/LazyImage';
 import Img1 from '@/assets/custom/webp-images/megha-letter1.webp'

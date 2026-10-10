@@ -130,7 +130,8 @@ for (const folder of folders) {
           const albumPhotos = scanDir(itemPath, `${folder}/${item}`);
           manifest.categories[`${folder}/${item}`] = albumPhotos.map((img, i) => ({
             id: `${folder}-${item}-${i}`,
-            image: img.image,
+            // Videos carry `video` rather than `image`; keep them instead of dropping the URL.
+            ...(img.video ? { video: img.video, type: 'video' } : { image: img.image }),
             title: img.title
           }));
         }

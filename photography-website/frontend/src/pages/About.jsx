@@ -7,8 +7,12 @@ import studio2 from '@/assets/custom/webp-images/studio2.webp';
 import studio3 from '@/assets/custom/webp-images/studio3.webp';
 import family from '@/assets/custom/webp-images/family.webp';
 import portrait from '@/assets/custom/home/about2.webp';
+import filmPoster from '@/assets/custom/webp-images/reva-reel-poster.webp';
+import { cldVideo } from '@/utils/imageUtils';
 
-const aboutVideo = 'https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/about/hero.mp4';
+// Tanvi's own About film (about/hero.mp4) was never uploaded, so this slot shows a Snippets family film
+// for now, credited underneath. Swap in her film's Cloudinary URL once it is online.
+const aboutVideo = cldVideo('https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/stories/reva-reel.mp4');
 
 const stats = [
   ['5+', 'Years of experience', 'Maternity, newborn and family photography'],
@@ -81,17 +85,21 @@ const About = () => (
     {/* Film + words */}
     <section className="bg-paper py-[120px]">
       <div className="max-w-[1360px] mx-auto px-6 md:px-8 flex flex-wrap gap-16 items-center">
-        <div className="flex-[1.2_1_440px] min-w-0">
+        <figure className="flex-[1.2_1_440px] min-w-0 m-0">
           <video
             src={aboutVideo}
+            poster={filmPoster}
             controls
             playsInline
-            preload="metadata"
-            className="block w-full aspect-[4/5] sm:aspect-[16/11] object-cover rounded bg-sand"
+            preload="none"
+            className="block w-full aspect-video object-cover rounded bg-sand"
           >
             <track kind="captions" />
           </video>
-        </div>
+          <figcaption className="ed-cap text-stone mt-4">
+            From <Link to="/stories/quiet-joys" className="ed-ul text-stone hover:text-ink">Quiet Joys</Link>, a Snippets family film
+          </figcaption>
+        </figure>
         <div className="flex-[1_1_380px] min-w-0">
           <p className="ed-cap text-clay mb-5">Behind the lens</p>
           <h2 className="font-display font-normal m-0 mb-7 text-[clamp(34px,3.6vw,52px)] leading-[1.08] tracking-[-0.01em]">
