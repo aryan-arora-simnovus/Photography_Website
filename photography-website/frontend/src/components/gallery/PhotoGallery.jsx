@@ -9,6 +9,7 @@ import FavoriteButton from '@/components/common/FavoriteButton';
 import DownloadButton from '@/components/common/DownloadButton';
 import ShareButton from '@/components/common/ShareButton';
 import LazyImage from '@/components/common/LazyImage';
+import { cldVideo, cldVideoPoster } from '@/utils/imageUtils';
 
 const breakpointColumnsObj = {
   default: 4,
@@ -65,7 +66,9 @@ const PhotoGallery = ({ photos }) => {
           >
             {photo.type === 'video' || photo.video ? (
               <video
-                src={photo.video || photo.image}
+                src={cldVideo(photo.video || photo.image, { size: 720 })}
+                poster={cldVideoPoster(photo.video)}
+                preload="none"
                 className="w-full h-auto transition-all duration-300 group-hover:brightness-110"
                 muted
                 playsInline
@@ -107,7 +110,7 @@ const PhotoGallery = ({ photos }) => {
             <div className="absolute inset-0 z-0">
                {selectedPhoto && (
                  <img 
-                   src={selectedPhoto.image} 
+                   src={selectedPhoto.image || cldVideoPoster(selectedPhoto.video)} 
                    alt="" 
                    className="w-full h-full object-cover filter blur-[100px] brightness-[0.4] saturate-[1.5] scale-125 transition-all duration-[2s]"
                  />
@@ -157,9 +160,11 @@ const PhotoGallery = ({ photos }) => {
                   
                   {selectedPhoto.type === 'video' || selectedPhoto.video ? (
                     <video
-                      src={selectedPhoto.video || selectedPhoto.image}
+                      src={cldVideo(selectedPhoto.video || selectedPhoto.image)}
+                      poster={cldVideoPoster(selectedPhoto.video)}
                       controls
                       autoPlay
+                      playsInline
                       className="max-h-[80vh] max-w-full shadow-[0_40px_100px_rgba(0,0,0,0.8)] border-[6px] md:border-[12px] border-white/5"
                     />
                   ) : (

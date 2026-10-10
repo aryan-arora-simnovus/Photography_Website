@@ -12,7 +12,9 @@ import { useKeenSlider } from 'keen-slider/react';
 import hero from './images/ella-eshita/webp-images/hero.webp';
 import LazyImage from '@/components/common/LazyImage';
 import poster from './images/ella-eshita/webp-images/reel-poster.webp';
-const reelSrc = 'https://res.cloudinary.com/dfmqkncaz/video/upload/v1/snippets-by-tanvi/stories/ella-eshita/reel.mp4';
+// The reel was never uploaded (stories/ella-eshita/reel.mp4 is a 404), so the card shows its poster.
+// Once it is on Cloudinary, put its URL here, wrapped in cldVideo() from '@/utils/imageUtils'.
+const reelSrc = null;
 
 import img01 from './images/ella-eshita/webp-images/01.webp';
 import img02 from './images/ella-eshita/webp-images/02.webp';

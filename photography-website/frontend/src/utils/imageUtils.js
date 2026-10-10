@@ -30,6 +30,21 @@ export const cldSrcSet = (url, { aspect } = {}) =>
     ? SRCSET_WIDTHS.map((w) => `${cld(url, { width: w, aspect })} ${w}w`).join(', ')
     : undefined;
 
+const CLOUDINARY_VIDEO = /^(https:\/\/res\.cloudinary\.com\/[^/]+\/video\/upload\/)(?!q_auto|so_)/;
+
+/**
+ * Web-sized H.264 MP4 of a Cloudinary video, fitted inside a `size`-pixel square so portrait
+ * and landscape films come out equally light; the uploaded originals can be 70 MB or more.
+ */
+export const cldVideo = (url, { size = 1280 } = {}) =>
+  typeof url === 'string' ? url.replace(CLOUDINARY_VIDEO, `$1q_auto,w_${size},h_${size},c_limit/`) : url;
+
+/** A frame from two seconds into a Cloudinary video, to use as its poster. */
+export const cldVideoPoster = (url, { width = 960 } = {}) =>
+  typeof url === 'string' && CLOUDINARY_VIDEO.test(url)
+    ? url.replace(CLOUDINARY_VIDEO, `$1so_2,f_auto,q_auto,w_${width},c_limit/`).replace(/\.\w+$/, '.jpg')
+    : undefined;
+
 export const getImageUrl = (url) => {
   if (!url) return null;
   return cld(url);
