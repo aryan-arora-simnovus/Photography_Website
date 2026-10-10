@@ -3,14 +3,16 @@ import React, { useState } from 'react';
 import { Play, Volume2, VolumeX } from 'lucide-react';
 import LazyImage from '@/components/common/LazyImage';
 
-export default function InlineReel({ poster, src, className = '' }) {
+// `aspect` is the poster's shape (CSS ratio); the video letterboxes inside it rather than being cropped.
+export default function InlineReel({ poster, src, className = '', aspect = '9 / 16' }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [w, h] = aspect.split('/').map(Number);
+  const isWide = w > h;
 
   return (
-    <div className={`relative mx-auto bg-black rounded-2xl overflow-hidden shadow-2xl ${className}`}>
-      {/* Container with 9:16 aspect ratio */}
-      <div className="relative w-full max-w-sm mx-auto aspect-[9/16]">
+    <div className={`relative mx-auto bg-black rounded-2xl overflow-hidden shadow-2xl ${isWide ? '' : 'max-w-sm'} ${className}`}>
+      <div className="relative w-full" style={{ aspectRatio: aspect }}>
         {isPlaying ? (
           <div className="relative w-full h-full">
             <video
@@ -18,7 +20,7 @@ export default function InlineReel({ poster, src, className = '' }) {
               loop
               muted={isMuted}
               playsInline
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
             {/* Video Controls Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
@@ -45,12 +47,12 @@ export default function InlineReel({ poster, src, className = '' }) {
         ) : (
           <button
             onClick={() => setIsPlaying(true)}
-            className="group relative w-full h-full focus:outline-none"
+            className="group relative block w-full h-full focus:outline-none"
           >
             <LazyImage
               src={poster}
               alt="Play reel"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="block w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             {/* Play Button Overlay */}
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors duration-300">

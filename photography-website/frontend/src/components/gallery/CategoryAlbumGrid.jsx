@@ -15,7 +15,6 @@ import CategoryStaticLayouts from "@/components/gallery/CategoryStaticLayouts";
 import LazyImage from '@/components/common/LazyImage';
 
 import { useCategories, usePhotos, useAlbums } from "../../hooks/usePhotos";
-import { getImageUrl } from "../../utils/imageUtils";
 import PhotoGallery from "./PhotoGallery";
 
 const categoryHeadlines = {
@@ -98,6 +97,8 @@ const CategoryAlbumGrid = () => {
     return <LoadingSkeleton />;
   }
 
+  const inPairs = albums.length % 2 === 0 && albums.length % 3 !== 0;
+
   return (
     <div className="min-h-screen bg-white">
       {/* Simplified Filters */}
@@ -125,13 +126,15 @@ const CategoryAlbumGrid = () => {
                       </h2>
                       <div className="w-24 h-1 bg-nature-moss mx-auto"></div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Portrait covers, so the photos show uncropped. Two or four albums sit in pairs; otherwise rows of three. */}
+                    <div className={`flex flex-wrap justify-center gap-x-8 gap-y-14 mx-auto ${inPairs ? 'max-w-[880px]' : ''}`}>
                       {albums.map((album, index) => (
                         <BigAlbumCard
                           key={album.id}
                           album={album}
                           categorySlug={categorySlug}
                           index={index}
+                          inPairs={inPairs}
                         />
                       ))}
                     </div>
@@ -174,75 +177,40 @@ const CategoryAlbumGrid = () => {
   );
 };
 
-const BigAlbumCard = ({ album, categorySlug, index }) => {
+const BigAlbumCard = ({ album, categorySlug, index, inPairs }) => {
   const [imageError, setImageError] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleImageError = () => {
-    setImageError(true);
-  };
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-    });
-  };
 
   return (
-    <div
-      className="group relative bg-white overflow-hidden transition-all duration-1000 transform"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{
-        animationDelay: `${index * 0.15}s`,
-        animation: "fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-      }}
+    <Link
+      to={`/category/${categorySlug}/album/${album.slug}`}
+      className={`ed-zoom ed-fade group block w-full max-w-[420px] sm:w-[calc(50%-16px)] ${
+        inPairs ? '' : 'lg:w-[calc((100%-64px)/3)]'
+      } text-ink hover:text-ink no-underline`}
+      style={{ animationDelay: `${index * 0.12}s` }}
     >
-      <Link to={`/category/${categorySlug}/album/${album.slug}`} className="block">
-        {/* Cinematic Image Container */}
-        <div className="relative aspect-[16/11] overflow-hidden rounded-sm">
-          {album.thumbnail_url && !imageError ? (
-            <LazyImage
-              src={getImageUrl(album.thumbnail_url)}
-              alt={`${album.client_name} preview`}
-              className="w-full h-full object-cover object-[center_30%] transition-transform duration-[2s] scale-100 group-hover:scale-105 filter brightness-[0.9] group-hover:brightness-100"
-              onError={handleImageError}
-            />
-          ) : (
-            <div className="w-full h-full bg-nature-sage/10 flex items-center justify-center">
-              <Camera className="h-12 w-12 text-nature-moss opacity-20" />
-            </div>
-          )}
-
-          {/* Minimalist Signature Overlay */}
-          <div className="absolute inset-x-0 bottom-0 p-12 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
-             <div className="flex flex-col gap-2">
-                <span className="text-[10px] tracking-[0.6em] text-white/50 uppercase font-light translate-y-2 group-hover:translate-y-0 transition-transform duration-700">
-                  Vol. {String(index + 1).padStart(2, '0')}
-                </span>
-                <h3 className="text-3xl md:text-4xl font-serif font-extralight text-white leading-tight tracking-tight">
-                  {album.client_name}
-                </h3>
-             </div>
-          </div>
-          
-          {/* Decorative Corner Tag */}
-          <div className="absolute top-8 right-8 overflow-hidden">
-             <div className="h-[1px] w-0 group-hover:w-16 bg-white/40 transition-all duration-1000 delay-300"></div>
-          </div>
-        </div>
-
-        {/* Caption below image for that magazine look */}
-        <div className="py-6 flex justify-between items-center px-2">
-           <div className="h-[1px] w-8 bg-nature-moss/30"></div>
-           <span className="text-[9px] tracking-[0.4em] uppercase text-nature-moss/60 font-semibold group-hover:text-nature-moss transition-colors">
-              View Collection
-           </span>
-           <div className="h-[1px] w-8 bg-nature-moss/30"></div>
-        </div>
-      </Link>
-    </div>
+      {/* 2:3 matches the covers; Cloudinary crops any other shape around the subject. */}
+      <span className="block aspect-[2/3] overflow-hidden rounded-sm bg-sand">
+        {album.thumbnail_url && !imageError ? (
+          <LazyImage
+            src={album.thumbnail_url}
+            aspect="2:3"
+            sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw"
+            alt={`${album.client_name} preview`}
+            className="block w-full h-full object-cover"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <span className="w-full h-full flex items-center justify-center">
+            <Camera className="h-12 w-12 text-nature-moss opacity-20" />
+          </span>
+        )}
+      </span>
+      <span className="flex justify-between items-baseline gap-4 mt-[18px]">
+        <span className="font-display text-[30px] leading-[1.1]">{album.client_name}</span>
+        <span className="ed-cap text-stone whitespace-nowrap">Vol. {String(index + 1).padStart(2, '0')}</span>
+      </span>
+      <span className="ed-cap block mt-2.5 text-clay">View collection →</span>
+    </Link>
   );
 };
 
@@ -257,11 +225,11 @@ const LoadingSkeleton = () => (
 
     <section className="py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-          {[...Array(6)].map((_, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1296px] mx-auto">
+          {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-gray-200 aspect-[4/3] rounded-3xl animate-pulse"
+              className="bg-gray-200 aspect-[2/3] rounded-sm animate-pulse"
             ></div>
           ))}
         </div>

@@ -26,35 +26,91 @@
   to { opacity: 1; transform: none; }
 }
 
-/* Hero slideshow: each new photo wipes up over the previous one. */
-.ed-stage {
-  position: relative;
+/* Hero: the headline is cut out of the page and the film plays inside the letters (HeroLens.jsx). */
+.ed-lens { position: relative; height: 260vh; height: 260svh; }
+.ed-lens.is-still { height: 100vh; height: 100svh; }
+.ed-lens-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
   overflow: hidden;
-  border-radius: 999px 999px 0 0;
-  background: #e6ded2;
+  background: #1c1814;
 }
-.ed-slide {
+.ed-lens-film,
+.ed-lens-tint,
+.ed-lens-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ed-lens-film { object-fit: cover; }
+.ed-lens-tint {
+  background: linear-gradient(180deg, rgba(28, 24, 21, 0.14) 0%, rgba(28, 24, 21, 0.46) 100%);
+  opacity: 0.6;
+}
+.ed-lens-svg { display: block; }
+.ed-lens-svg text { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; white-space: pre; }
+.ed-lens-word { animation: ed-lens-develop 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.ed-lens-ring { animation: ed-lens-develop 1.2s 1.1s ease both; }
+@keyframes ed-lens-develop {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.ed-lens-intro {
+  position: absolute;
+  bottom: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px 40px;
+}
+.ed-lens-cue {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  color: #6b635b;
+}
+.ed-lens-cue span {
+  position: relative;
+  width: 56px;
+  height: 1px;
+  background: #d8cfc2;
+  overflow: hidden;
+}
+.ed-lens-cue span::after {
+  content: "";
   position: absolute;
   inset: 0;
-  clip-path: inset(100% 0 0 0);
-  z-index: 0;
+  background: #8e4a33;
+  transform: translateX(-100%);
+  animation: ed-lens-cue 2.4s cubic-bezier(0.6, 0, 0.3, 1) infinite;
 }
-.ed-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.12);
-  transition: transform 6s cubic-bezier(0.2, 0.7, 0.2, 1);
+@keyframes ed-lens-cue {
+  to { transform: translateX(100%); }
 }
-.ed-slide.is-prev { clip-path: inset(0); z-index: 1; }
-.ed-slide.is-on {
-  clip-path: inset(0);
-  z-index: 2;
-  transition: clip-path 1.5s cubic-bezier(0.75, 0, 0.2, 1);
+.ed-lens-outro {
+  position: absolute;
+  bottom: clamp(32px, 8vh, 88px);
+  opacity: 0;
+  visibility: hidden;
 }
-.ed-slide.is-on img,
-.ed-slide.is-prev img { transform: scale(1); }
+.ed-lens-toggle {
+  position: absolute;
+  top: 96px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #26221f;
+  background: rgba(245, 241, 234, 0.85);
+  border: 1px solid #d8cfc2;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.ed-lens-toggle:hover { background: #f5f1ea; }
+.ed-lens-toggle:focus-visible { outline: 2px solid #8e4a33; outline-offset: 3px; }
 
 /* "The work" list with a photo that follows the cursor. */
 .ed-list:hover .ed-row { opacity: 0.32; }
@@ -66,27 +122,28 @@
   opacity: 1;
   padding-left: 28px;
 }
+/* The peek takes each photo's own shape (height follows the image), widening for landscape ones. */
 .ed-peek {
   position: absolute;
   left: 0;
   top: 0;
-  width: 300px;
-  aspect-ratio: 4 / 5;
+  width: 270px;
   pointer-events: none;
   z-index: 3;
   overflow: hidden;
   border-radius: 4px;
   opacity: 0;
   transform: translate(-50%, -60%) rotate(-3deg) scale(0.85);
-  transition: opacity 0.35s, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+  transition: opacity 0.35s, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), width 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
     left 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), top 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
   box-shadow: 0 30px 60px -30px rgba(38, 34, 31, 0.55);
 }
+.ed-peek.is-wide { width: 380px; }
 .ed-peek.is-on {
   opacity: 1;
   transform: translate(-50%, -60%) rotate(-3deg) scale(1);
 }
-.ed-peek img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ed-peek img { display: block; width: 100%; height: auto; }
 
 /* Stories rail */
 .ed-rail {
@@ -115,6 +172,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ed-rise, .ed-fade { animation: none; }
-  .ed-slide.is-on { transition: none; }
-  .ed-slide img, .ed-zoom img { transition: none; }
+  .ed-lens-word, .ed-lens-ring, .ed-lens-cue span::after { animation: none; }
+  .ed-zoom img { transition: none; }
 }

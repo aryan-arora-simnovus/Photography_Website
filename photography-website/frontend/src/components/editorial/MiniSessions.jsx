@@ -47,7 +47,7 @@ const MiniSessions = () => (
     <div className="grid gap-x-7 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
       {sessions.map((s) => (
         <article key={s.theme} className="ed-zoom">
-          <div className="aspect-[3/4] overflow-hidden rounded">
+          <div className="aspect-[2/3] overflow-hidden rounded">
             <LazyImage
               src={s.image}
               alt={`${s.theme} mini session`}

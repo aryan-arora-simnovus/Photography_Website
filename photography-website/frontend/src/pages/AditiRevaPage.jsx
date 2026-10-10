@@ -114,7 +114,8 @@ export default function AditiRevaPage() {
           <InlineReel
             poster={reelPoster}
             src={reelSrc}
-            className="mx-auto"
+            aspect="16 / 9"
+            className="mx-auto w-full"
             />
           <div className="space-y-8">
             <h2 className="text-3xl font-serif text-nature-forest">

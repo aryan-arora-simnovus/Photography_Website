@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const PEEK_HALF_WIDTH = 150;
+// Half the peek's width (see .ed-peek) plus room for its tilt, so it stays inside the list.
+const PEEK_HALF_WIDTH = { portrait: 150, wide: 205 };
 
 const WorkList = ({ categories }) => {
   const [hovered, setHovered] = useState(-1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
+  const peek = categories[hovered >= 0 ? hovered : 0];
+
   const handleMove = (e) => {
     const r = e.currentTarget.getBoundingClientRect();
-    const x = Math.min(r.width - PEEK_HALF_WIDTH, Math.max(PEEK_HALF_WIDTH, e.clientX - r.left));
+    const half = peek.wide ? PEEK_HALF_WIDTH.wide : PEEK_HALF_WIDTH.portrait;
+    const x = Math.min(r.width - half, Math.max(half, e.clientX - r.left));
     setPos({ x, y: e.clientY - r.top });
   };
-
-  const peek = categories[hovered >= 0 ? hovered : 0];
 
   return (
     <div
@@ -22,7 +24,7 @@ const WorkList = ({ categories }) => {
       onPointerLeave={() => setHovered(-1)}
     >
       <div
-        className={`ed-peek ${hovered >= 0 ? 'is-on' : ''}`}
+        className={`ed-peek ${hovered >= 0 ? 'is-on' : ''} ${peek.wide ? 'is-wide' : ''}`}
         style={{ left: pos.x, top: pos.y }}
         aria-hidden="true"
       >
