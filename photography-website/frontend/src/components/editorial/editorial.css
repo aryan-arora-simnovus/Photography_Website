@@ -28,13 +28,13 @@
 
 /* Hero: the headline is cut out of the page and the film plays inside the letters (HeroLens.jsx). */
 .ed-lens { position: relative; height: 260vh; height: 260svh; }
-.ed-lens.is-still { height: 100vh; height: 100svh; }
+.ed-lens.is-still { height: 100vh; height: 100svh; min-height: 320px; }
 .ed-lens-pin {
   position: sticky;
   top: 0;
   height: 100vh;
   height: 100svh;
-  min-height: 560px;
+  min-height: 320px;
   overflow: hidden;
   background: #1c1814;
 }
@@ -63,6 +63,10 @@
   align-items: flex-end;
   gap: 20px 40px;
 }
+/* Parts of the intro dropped on screens too short for them and a full-size headline (HeroLens.jsx). */
+.ed-lens-intro[data-hide~="cue"] .ed-lens-cue,
+.ed-lens-intro[data-hide~="lede"] .ed-lens-lede,
+.ed-lens-intro[data-hide~="eyebrow"] .ed-lens-eyebrow { display: none; }
 .ed-lens-cue {
   display: flex;
   align-items: center;
