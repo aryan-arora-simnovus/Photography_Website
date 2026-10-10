@@ -29,65 +29,83 @@ const Header = () => {
   // Close the mobile menu whenever the route changes.
   useEffect(() => setIsMenuOpen(false), [location.pathname, location.hash]);
 
+  // While the menu is open the page behind it stays put, and Escape closes it.
+  useEffect(() => {
+    if (!isMenuOpen) return undefined;
+    const root = document.documentElement;
+    const overflow = root.style.overflow;
+    root.style.overflow = 'hidden';
+    const onKey = (e) => e.key === 'Escape' && setIsMenuOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      root.style.overflow = overflow;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [isMenuOpen]);
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-ivory/95 backdrop-blur font-body transition-shadow duration-300 ${
-        isScrolled ? 'shadow-[0_1px_0_#D8CFC2]' : ''
-      }`}
-    >
-      <div className="max-w-[1360px] mx-auto px-6 md:px-8 h-20 flex items-center justify-between gap-8">
-        <Link to="/" className="flex flex-col leading-none no-underline text-ink hover:text-ink" aria-label="Snippets by Tanvi — home">
-          <span className="font-display text-[34px] tracking-[-0.01em]">Snippets</span>
-          <span className="ed-cap text-[10px] tracking-[0.22em] uppercase text-stone mt-1">by Tanvi</span>
-        </Link>
-
-        <nav aria-label="Main" className="hidden lg:flex items-center gap-[30px]">
-          <div className="relative group">
-            <Link to="/#work" className={`${linkClass} inline-flex items-center gap-1 py-3`} aria-haspopup="true">
-              Portfolio <ChevronDown className="w-4 h-4" strokeWidth={1.5} />
-            </Link>
-            <div className="invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-all absolute left-1/2 -translate-x-1/2 top-full pt-2">
-              <ul className="w-64 bg-paper border border-line rounded-md py-3 shadow-[0_24px_48px_-28px_rgba(38,34,31,0.45)] list-none m-0">
-                {portfolioItems.map((item) => (
-                  <li key={item.slug}>
-                    <NavLink
-                      to={`/category/${item.slug}/albums`}
-                      className={({ isActive }) =>
-                        `block px-5 py-2.5 font-display text-[22px] no-underline hover:bg-sand ${isActive ? 'text-clay' : 'text-ink hover:text-ink'}`
-                      }
-                    >
-                      {item.name}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <Link to="/#stories" className={linkClass}>Stories</Link>
-          <NavLink to="/about" className={({ isActive }) => `${linkClass} ${isActive ? 'text-clay' : ''}`}>About</NavLink>
-          <Link
-            to="/contact"
-            className="inline-flex items-center min-h-[44px] px-[22px] rounded-full border border-ink text-ink text-[15px] hover:bg-ink hover:text-ivory no-underline"
-          >
-            Book a session
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 bg-ivory/95 backdrop-blur font-body transition-shadow duration-300 ${
+          isScrolled ? 'shadow-[0_1px_0_#D8CFC2]' : ''
+        }`}
+      >
+        <div className="max-w-[1360px] mx-auto px-6 md:px-8 h-20 flex items-center justify-between gap-8">
+          <Link to="/" className="flex flex-col leading-none no-underline text-ink hover:text-ink" aria-label="Snippets by Tanvi — home">
+            <span className="font-display text-[34px] tracking-[-0.01em]">Snippets</span>
+            <span className="ed-cap text-[10px] tracking-[0.22em] uppercase text-stone mt-1">by Tanvi</span>
           </Link>
-        </nav>
 
-        <button
-          type="button"
-          className="lg:hidden w-11 h-11 inline-flex items-center justify-center text-ink"
-          onClick={() => setIsMenuOpen((open) => !open)}
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-menu"
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {isMenuOpen ? <X className="w-6 h-6" strokeWidth={1.5} /> : <Menu className="w-6 h-6" strokeWidth={1.5} />}
-        </button>
-      </div>
+          <nav aria-label="Main" className="hidden lg:flex items-center gap-[30px]">
+            <div className="relative group">
+              <Link to="/#work" className={`${linkClass} inline-flex items-center gap-1 py-3`} aria-haspopup="true">
+                Portfolio <ChevronDown className="w-4 h-4" strokeWidth={1.5} />
+              </Link>
+              <div className="invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-all absolute left-1/2 -translate-x-1/2 top-full pt-2">
+                <ul className="w-64 bg-paper border border-line rounded-md py-3 shadow-[0_24px_48px_-28px_rgba(38,34,31,0.45)] list-none m-0">
+                  {portfolioItems.map((item) => (
+                    <li key={item.slug}>
+                      <NavLink
+                        to={`/category/${item.slug}/albums`}
+                        className={({ isActive }) =>
+                          `block px-5 py-2.5 font-display text-[22px] no-underline hover:bg-sand ${isActive ? 'text-clay' : 'text-ink hover:text-ink'}`
+                        }
+                      >
+                        {item.name}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <Link to="/#stories" className={linkClass}>Stories</Link>
+            <NavLink to="/about" className={({ isActive }) => `${linkClass} ${isActive ? 'text-clay' : ''}`}>About</NavLink>
+            <Link
+              to="/contact"
+              className="inline-flex items-center min-h-[44px] px-[22px] rounded-full border border-ink text-ink text-[15px] hover:bg-ink hover:text-ivory no-underline"
+            >
+              Book a session
+            </Link>
+          </nav>
 
+          <button
+            type="button"
+            className="lg:hidden w-11 h-11 inline-flex items-center justify-center text-ink"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isMenuOpen ? <X className="w-6 h-6" strokeWidth={1.5} /> : <Menu className="w-6 h-6" strokeWidth={1.5} />}
+          </button>
+        </div>
+      </header>
+
+      {/* Outside the header on purpose: the header's backdrop blur would make it the frame for this fixed
+          panel, squashing the panel into the header's 80px instead of filling the screen below it. */}
       <div
         id="mobile-menu"
-        className={`lg:hidden fixed inset-x-0 top-20 bottom-0 bg-ivory overflow-y-auto transition-[opacity,transform] duration-300 ${
+        className={`lg:hidden fixed inset-x-0 top-20 bottom-0 z-50 bg-ivory overflow-y-auto overscroll-contain transition-[opacity,transform] duration-300 ${
           isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
         }`}
         aria-hidden={!isMenuOpen}
@@ -117,7 +135,7 @@ const Header = () => {
           </Link>
         </nav>
       </div>
-    </header>
+    </>
   );
 };
 
