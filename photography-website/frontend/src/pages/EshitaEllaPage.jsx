@@ -73,17 +73,20 @@ export default function EshitaElla() {
   return (
     <main className="bg-white text-gray-900 font-light leading-relaxed">
       {/* ---------- HERO ---------- */}
-      <section className="relative w-full aspect-[3/2] md:aspect-[3/2] bg-black">
-  <LazyImage
-    src={hero}
-    alt="Eshita and Ella"
-    loading="eager"
-    fetchPriority="high"
-    className="absolute inset-0 w-full h-full object-cover"
-    style={{ aspectRatio: '3/2' }} // for maximum browser support
-  />
-  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center max-w-4xl px-6">
+      {/* On phones the photo starts below the fixed header and the title sits under it; from 640px up the title is laid over the photo. */}
+      <section className="relative w-full pt-20 sm:pt-0">
+  <div className="relative w-full aspect-[3/2] bg-black">
+    <LazyImage
+      src={hero}
+      alt="Eshita and Ella"
+      loading="eager"
+      fetchPriority="high"
+      className="absolute inset-0 w-full h-full object-cover"
+      style={{ aspectRatio: '3/2' }} // for maximum browser support
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+  </div>
+  <div className="bg-black px-6 pt-2 pb-10 text-center sm:bg-transparent sm:absolute sm:inset-x-0 sm:bottom-8 sm:mx-auto sm:max-w-4xl sm:p-0 sm:px-6">
     <h1 className="text-white font-light text-4xl md:text-5xl lg:text-6xl mb-3 tracking-wide leading-tight">
       Styled With Soul
     </h1>

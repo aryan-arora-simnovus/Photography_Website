@@ -101,18 +101,10 @@ const CategoryAlbumGrid = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Simplified Filters */}
       <CategoryStaticLayouts slug={categorySlug} />
 
-      <section className="bg-white shadow-sm py-8 sticky top-0 z-40 backdrop-blur-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between max-w-4xl mx-auto">
-          </div>
-        </div>
-      </section>
-
       {/* Large Modern Album Grid */}
-      <section className="py-16">
+      <section className="pt-10 pb-16 md:pt-32">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
             {/* 1. If Category has albums */}
@@ -148,7 +140,7 @@ const CategoryAlbumGrid = () => {
             {/* 2. If Category has direct photos (no albums or mixed) */}
             {directPhotos && directPhotos.length > 0 && (
               <div>
-                  <div className="pt-24 pb-20 text-center max-w-5xl mx-auto px-4">
+                  <div className="pt-8 md:pt-24 pb-20 text-center max-w-5xl mx-auto px-4">
                     <div className="flex items-center justify-center gap-6 mb-8">
                        <div className="h-[1px] w-12 bg-nature-moss/20"></div>
                        <span className="text-nature-moss text-[10px] tracking-[0.8em] uppercase font-bold">
@@ -218,8 +210,8 @@ const LoadingSkeleton = () => (
   <div className="min-h-screen bg-gray-50">
     <section className="bg-nature-cream py-24">
       <div className="container mx-auto px-4 text-center">
-        <div className="h-12 bg-gray-200 rounded w-96 mx-auto mb-6 animate-pulse"></div>
-        <div className="h-8 bg-gray-200 rounded w-[600px] mx-auto animate-pulse"></div>
+        <div className="h-12 bg-gray-200 rounded w-96 max-w-full mx-auto mb-6 animate-pulse"></div>
+        <div className="h-8 bg-gray-200 rounded w-[600px] max-w-full mx-auto animate-pulse"></div>
       </div>
     </section>
 

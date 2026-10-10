@@ -68,10 +68,10 @@ const AlbumGallery = () => {
       {/* Professional Magazine Split Hero */}
       <section className="relative min-h-screen flex flex-col lg:flex-row bg-white overflow-hidden">
         {/* Left Side: Typography & Story */}
-        <div className="w-full lg:flex-1 lg:min-w-0 p-12 lg:p-24 flex flex-col justify-center relative z-10 bg-white">
+        <div className="w-full lg:flex-1 lg:min-w-0 px-6 pt-28 pb-12 sm:px-12 lg:p-24 flex flex-col justify-center relative z-10 bg-white">
           <Link
             to={`/category/${categorySlug}/albums`}
-            className="inline-flex items-center text-nature-moss/60 hover:text-nature-moss mb-20 transition-all duration-500 uppercase tracking-[0.4em] text-[10px] font-bold group"
+            className="inline-flex items-center text-nature-moss/60 hover:text-nature-moss mb-12 lg:mb-20 transition-all duration-500 uppercase tracking-[0.4em] text-[10px] font-bold group"
           >
             <ArrowLeft className="h-3 w-3 mr-3 group-hover:-translate-x-2 transition-transform" />
             Back to {album.category_name}
@@ -82,7 +82,7 @@ const AlbumGallery = () => {
               <span className="text-nature-moss/40 text-[10px] tracking-[0.6em] uppercase font-bold block mb-4">
                 Series No. {String(Math.floor(Math.random() * 90) + 10)}
               </span>
-              <h1 className="text-6xl lg:text-7xl xl:text-8xl font-serif font-extralight text-nature-forest leading-[1.1] tracking-tighter">
+              <h1 className="text-[clamp(44px,15vw,60px)] lg:text-7xl xl:text-8xl font-serif font-extralight text-nature-forest leading-[1.1] tracking-tighter break-words">
                 {album.client_name}
               </h1>
             </div>
@@ -160,7 +160,7 @@ const AlbumLoadingSkeleton = () => (
       <div className="container mx-auto px-4 text-center">
         <div className="h-8 bg-gray-200 rounded w-48 mx-auto mb-4 animate-pulse"></div>
         <div className="h-12 bg-gray-200 rounded w-64 mx-auto mb-6 animate-pulse"></div>
-        <div className="h-6 bg-gray-200 rounded w-96 mx-auto animate-pulse"></div>
+        <div className="h-6 bg-gray-200 rounded w-96 max-w-full mx-auto animate-pulse"></div>
       </div>
     </section>
 

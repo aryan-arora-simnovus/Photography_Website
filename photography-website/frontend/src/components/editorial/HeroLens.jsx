@@ -14,6 +14,8 @@ import posterTall from '@/assets/custom/hero/hero-poster-portrait.webp';
  */
 
 const HEADER_H = 80; // fixed site header (h-20)
+const TOGGLE_SIZE = 44; // pause button in the top right corner (.ed-lens-toggle)
+const INTRO_BOTTOM = 28; // .ed-lens-intro sits this far above the bottom edge
 const IVORY = '#F5F1EA';
 const CLAY = '#8E4A33';
 const FONT = '"Instrument Serif", Georgia, serif';
@@ -46,24 +48,37 @@ const runWidth = (text, italic, size) => {
   return measureCtx.measureText(text).width;
 };
 
-/** Fit the headline into the pinned viewport and place the lens dot after the last word. */
-const computeLayout = (w, h) => {
+// On short screens the intro gives up, in turn, the scroll cue, the paragraph and the eyebrow line
+// (see .ed-lens-intro[data-hide] in editorial.css) until the headline can stay at least this big.
+const INTRO_TRIMS = ['', 'cue', 'cue lede', 'cue lede eyebrow'];
+const MIN_HEADLINE = 60;
+
+const marginFor = (w, h) => {
   const tall = w / h < 1.05;
+  return { tall, mx: Math.max(20, Math.round(w * (tall ? 0.06 : 0.055))) };
+};
+
+/**
+ * Fit the headline between the header and the intro (introH tall) and place the lens dot after the
+ * last word. The last line, "in between", has no descenders, so the block ends at its baseline.
+ */
+const computeLayout = (w, h, introH) => {
+  const { tall, mx } = marginFor(w, h);
   const spec = tall ? TALL_LINES : WIDE_LINES;
-  const mx = Math.max(20, Math.round(w * (tall ? 0.06 : 0.055)));
   const top = HEADER_H + (tall ? 32 : 24);
-  const reserve = tall ? 290 : 196; // space kept free for the intro and buttons
+  const bottom = h - INTRO_BOTTOM - introH - (tall ? 28 : 36);
   const base = 100;
   const widths = spec.map((l) => l.runs.reduce((sum, [t, italic]) => sum + runWidth(t, italic, base), 0));
   const needed = Math.max(
     ...spec.map((l, i) => l.indent * base + widths[i] + (i === spec.length - 1 ? (DOT_GAP + 2 * DOT_R) * base : 0)),
   );
-  const avail = h - top - reserve;
+  const avail = bottom - top;
   const byWidth = ((w - 2 * mx) / needed) * base;
-  const byHeight = avail / (0.75 + (spec.length - 1) * LINE_HEIGHT + 0.25);
-  const size = Math.max(40, Math.min(byWidth, byHeight, tall ? 170 : 280));
-  const blockH = size * (0.75 + (spec.length - 1) * LINE_HEIGHT + 0.25);
-  const firstBaseline = top + Math.max(0, (avail - blockH) / 2) + size * 0.75;
+  // The first line is level with the pause button, so it has to stop short of it.
+  const byToggle = ((w - 2 * mx - TOGGLE_SIZE - 16) / (spec[0].indent * base + widths[0])) * base;
+  const blockEm = 0.75 + (spec.length - 1) * LINE_HEIGHT;
+  const size = Math.max(40, Math.min(byWidth, byToggle, avail / blockEm, tall ? 170 : 280));
+  const firstBaseline = top + Math.max(0, (avail - size * blockEm) / 2) + size * 0.75;
 
   const lines = spec.map((l, i) => ({
     runs: l.runs,
@@ -99,13 +114,30 @@ const HeroLens = () => {
   const [paused, setPaused] = useState(still);
   const [layout, setLayout] = useState(null);
 
-  // Measure before the first paint, on resize, and again once the display font has loaded.
+  // Measure before the first paint, on resize, whenever the intro reflows (a font arriving, say) and
+  // once the display font has loaded.
   useLayoutEffect(() => {
     let frame = 0;
     const measure = () => {
       frame = 0;
-      const el = pinRef.current;
-      if (el && el.clientWidth && el.clientHeight) setLayout(computeLayout(el.clientWidth, el.clientHeight));
+      const pin = pinRef.current;
+      const intro = introRef.current;
+      if (!pin || !intro || !pin.clientWidth || !pin.clientHeight) return;
+      const w = pin.clientWidth;
+      const h = pin.clientHeight;
+      // Measure the intro at the margins it is about to get, trimming it until the headline fits.
+      const { mx } = marginFor(w, h);
+      intro.style.left = `${mx}px`;
+      intro.style.right = `${mx}px`;
+      let next = null;
+      for (const hide of INTRO_TRIMS) {
+        intro.dataset.hide = hide;
+        next = { ...computeLayout(w, h, intro.offsetHeight), hide };
+        if (next.size >= MIN_HEADLINE) break;
+      }
+      // Keep the same object when nothing moved, so the intro's own resize doesn't re-render for nothing.
+      const same = (a, b) => a && a.w === b.w && a.h === b.h && a.size === b.size && a.hide === b.hide && a.dot.cx === b.dot.cx;
+      setLayout((prev) => (same(prev, next) ? prev : next));
     };
     const onResize = () => {
       if (!frame) frame = requestAnimationFrame(measure);
@@ -116,8 +148,11 @@ const HeroLens = () => {
       .then(() => document.fonts.load(`italic 400 100px ${FONT}`))
       .then(measure)
       .catch(() => {});
+    const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(onResize);
+    ro?.observe(introRef.current);
     window.addEventListener('resize', onResize);
     return () => {
+      ro?.disconnect();
       window.removeEventListener('resize', onResize);
       cancelAnimationFrame(frame);
     };
@@ -277,10 +312,10 @@ const HeroLens = () => {
           <div className="absolute inset-0 bg-ivory" />
         )}
 
-        <div ref={introRef} className="ed-lens-intro" style={pad}>
+        <div ref={introRef} className="ed-lens-intro" style={pad} data-hide={layout ? layout.hide : ''}>
           <div className="max-w-[480px]">
-            <p className="ed-cap text-clay mb-3">Lifestyle · Commercial · Films</p>
-            <p className="m-0 mb-6 text-[#4A433D]">
+            <p className="ed-lens-eyebrow ed-cap text-clay mb-3">Lifestyle · Commercial · Films</p>
+            <p className="ed-lens-lede m-0 mb-6 text-[#4A433D]">
               Maternity, newborn, milestone and family photography by Tanvi — gentle, patient sessions that turn
               fleeting moments into timeless visual stories.
             </p>

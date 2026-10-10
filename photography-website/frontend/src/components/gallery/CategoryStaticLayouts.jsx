@@ -13,22 +13,26 @@ import FashionBanner from '@/assets/custom/webp-images/fashionbanner.webp';
 
 import LazyImage from '@/components/common/LazyImage';
 
+// On phones the banner is too short to hold the title clear of the fixed header, so the photo starts below
+// the header and the title sits underneath it; from 640px up the title is laid over the photo.
 const baseLayout = (imgSrc, altText, title, subtitle) => (
-  <section className="relative w-full overflow-hidden  shadow-2xl bg-black">
-    {/* Hero Image */}
-    <LazyImage
-      src={imgSrc}
-      alt={altText}
-      loading="eager"
-      fetchPriority="high"
-      className="w-full h-auto object-contain"
-    />
+  <section className="relative w-full overflow-hidden pt-20 sm:pt-0">
+    {/* Hero Image (every banner is 3:2) */}
+    <div className="relative bg-black">
+      <LazyImage
+        src={imgSrc}
+        alt={altText}
+        loading="eager"
+        fetchPriority="high"
+        className="block w-full h-auto aspect-[3/2] object-contain"
+      />
 
-    {/* Gradient Overlay */}
-    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
+    </div>
 
     {/* Centered Text */}
-    <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
+    <div className="bg-black px-6 pt-2 pb-10 sm:p-0 sm:px-6 sm:bg-transparent sm:absolute sm:inset-0 flex flex-col justify-center items-center text-center">
       <h2 className="text-4xl md:text-6xl font-light text-white mb-4 tracking-wide">
         {title}
       </h2>
