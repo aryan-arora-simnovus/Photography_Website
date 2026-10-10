@@ -109,6 +109,8 @@ Thumbs.db
 
 # 2. FORCE IGNORE all videos (even if they are in the folders above)
 photography-website/frontend/**/*.mp4
+# Web-sized homepage hero films (~8 MB total) are the exception.
+!photography-website/frontend/src/assets/custom/hero/*.mp4
 photography-website/frontend/**/*.MP4
 photography-website/frontend/**/*.mov
 photography-website/frontend/**/*.MOV
