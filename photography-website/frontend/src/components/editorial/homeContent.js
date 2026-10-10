@@ -1,6 +1,5 @@
 // Web-sized (1600px) copies of photos from assets/custom/webp-images, made for the homepage.
 import maternityBanner from '@/assets/custom/home/maternitybanner.webp';
-import momBabyWindow from '@/assets/custom/home/maternity-extra-2.webp';
 import coupleHug from '@/assets/custom/home/megha-mosaic-3.webp';
 import momToddlerLaugh from '@/assets/custom/home/reva-1.webp';
 import studioTutu from '@/assets/custom/home/maternity-extra-3.webp';
@@ -17,13 +16,6 @@ import liftUp from '@/assets/custom/home/reva-6.webp';
 import picnic from '@/assets/custom/home/preweddingbanner.webp';
 import silhouette from '@/assets/custom/home/anniversary-banner.webp';
 import tanviPortrait from '@/assets/custom/home/about2.webp';
-
-export const heroSlides = [
-  { src: momBabyWindow, alt: 'Mother holding her baby by a window', label: 'Newborn' },
-  { src: coupleHug, alt: 'Couple embracing outdoors', label: 'Pre-wedding' },
-  { src: momToddlerLaugh, alt: 'Mother and toddler laughing together', label: 'Lifestyle family' },
-  { src: maternityBanner, alt: 'Expectant mother lying among flowers', label: 'Baby Blossom' },
-];
 
 // Slugs match the existing /category/:categorySlug/albums routes.
 export const workCategories = [

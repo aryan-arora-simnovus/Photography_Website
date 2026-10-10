@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import HeroSlideshow from '@/components/editorial/HeroSlideshow';
+import HeroLens from '@/components/editorial/HeroLens';
 import WorkList from '@/components/editorial/WorkList';
 import RecentFrames from '@/components/editorial/RecentFrames';
 import KindWords from '@/components/editorial/KindWords';
 import MiniSessions from '@/components/editorial/MiniSessions';
 import ContactBanner from '@/components/editorial/ContactBanner';
 import {
-  heroSlides,
   workCategories,
   stories,
   recentFrames,
@@ -36,39 +35,8 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-ivory text-ink font-body text-[17px] leading-[1.65] overflow-hidden pt-20">
-      {/* Hero */}
-      <section className="max-w-[1360px] mx-auto px-6 md:px-8 pt-6 pb-24 flex flex-wrap gap-14 items-end">
-        <div className="flex-[1.25_1_420px] min-w-0 pb-3">
-          <p className="ed-cap ed-rise text-clay mb-7">Lifestyle · Commercial · Films</p>
-          <h1 className="ed-rise font-display font-normal m-0 text-[clamp(58px,7.6vw,128px)] leading-[0.94] tracking-[-0.02em]" style={{ animationDelay: '.15s' }}>
-            Love, <em>laughter</em>
-            <br />
-            &amp; everything
-            <br />
-            <em className="text-clay">in between.</em>
-          </h1>
-          <p className="ed-rise mt-[34px] mb-9 max-w-[460px] text-[#4A433D]" style={{ animationDelay: '.3s' }}>
-            Maternity, newborn, milestone and family photography by Tanvi — gentle, patient sessions that
-            turn fleeting moments into timeless visual stories.
-          </p>
-          <div className="ed-rise flex flex-wrap gap-x-[26px] gap-y-3.5 items-center" style={{ animationDelay: '.45s' }}>
-            <Link
-              to="/contact"
-              className="group inline-flex items-center gap-3 min-h-[52px] px-[30px] rounded-full bg-ink text-ivory text-[15px] font-medium tracking-[0.04em] hover:bg-clay hover:text-ivory"
-            >
-              Book a session
-              <ArrowRight className="w-[18px] h-[18px] transition-transform group-hover:translate-x-1" strokeWidth={1.5} />
-            </Link>
-            <a href="#work" className="ed-ul text-[15px] tracking-[0.04em] text-ink">
-              View the portfolio
-            </a>
-          </div>
-        </div>
-        <div className="flex-[1_1_380px] min-w-0">
-          <HeroSlideshow slides={heroSlides} />
-        </div>
-      </section>
+    <div className="bg-ivory text-ink font-body text-[17px] leading-[1.65] overflow-x-clip">
+      <HeroLens />
 
       {/* The work */}
       <section id="work" className="max-w-[1360px] mx-auto px-6 md:px-8 pt-[72px] pb-[120px] scroll-mt-24">
