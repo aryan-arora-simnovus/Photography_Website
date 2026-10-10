@@ -1,5 +1,23 @@
 import { useState, useEffect, useMemo } from 'react';
-// Trigger HMR 2
+import curation from '../data/galleryCuration.json';
+
+const hidden = new Set(curation.hidden);
+
+/**
+ * Apply the gallery curation to an album: drop hidden look-alikes, missing files and
+ * entries with no media, then use the curated display order (unknown photos keep
+ * their original order after the curated ones).
+ */
+export const curatePhotos = (folder, photos = []) => {
+  const visible = photos.filter((p) => (p.image || p.video) && !hidden.has(p.image));
+  const order = curation.order[folder];
+  if (!order) return visible;
+  const rank = new Map(order.map((url, i) => [url, i]));
+  return visible
+    .map((p, i) => ({ p, r: rank.has(p.image) ? rank.get(p.image) : order.length + i }))
+    .sort((a, b) => a.r - b.r)
+    .map(({ p }) => p);
+};
 
 export const usePhotos = (filters = {}) => {
   const [photos, setPhotos] = useState([]);
@@ -23,7 +41,7 @@ export const usePhotos = (filters = {}) => {
 
         if (filters.category) {
           const folder = filters.album ? `${filters.category}/${filters.album}` : filters.category;
-          setPhotos(manifest.categories[folder] || []);
+          setPhotos(curatePhotos(folder, manifest.categories[folder]));
         } else if (filters.is_featured) {
           setPhotos(manifest.featured || []);
         } else {
@@ -110,7 +128,7 @@ export const useAlbums = (categorySlug) => {
         );
 
         const albumData = albumKeys.map(key => {
-          const photos = manifest.categories[key];
+          const photos = curatePhotos(key, manifest.categories[key]);
           const albumName = key.split('/').slice(1).join('/'); 
           
           return {
