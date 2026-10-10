@@ -110,6 +110,7 @@ const AlbumGallery = () => {
               aspect="2:3"
               sizes="(min-width: 1024px) 42vw, 100vw"
               loading="eager"
+              fetchPriority="high"
               alt={`${album.client_name} cover`}
               className="block w-full h-full object-cover"
             />

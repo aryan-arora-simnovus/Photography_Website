@@ -1,21 +1,21 @@
-// Web-sized (1600px) copies of photos from assets/custom/webp-images, made for the homepage.
-import maternityBanner from '@/assets/custom/home/maternitybanner.webp';
-import coupleHug from '@/assets/custom/home/megha-mosaic-3.webp';
-import momToddlerLaugh from '@/assets/custom/home/reva-1.webp';
-import studioTutu from '@/assets/custom/home/maternity-extra-3.webp';
-import famjamBanner from '@/assets/custom/home/famjambanner.webp';
-import eventBanner from '@/assets/custom/home/eventbanner.webp';
-import commercialBanner from '@/assets/custom/home/fashionbanner.webp';
-import coupleUnderTree from '@/assets/custom/home/megha-letter1.webp';
-import milestoneBoard from '@/assets/custom/home/reva-4.webp';
-import styledWithSoul from '@/assets/custom/home/eshita-extra-1.webp';
-import bwCouple from '@/assets/custom/home/story2.webp';
-import momWithKids from '@/assets/custom/home/maternity-extra-1.webp';
-import newbornParents from '@/assets/custom/home/studiobanner.webp';
-import liftUp from '@/assets/custom/home/reva-6.webp';
-import picnic from '@/assets/custom/home/preweddingbanner.webp';
-import silhouette from '@/assets/custom/home/anniversary-banner.webp';
-import tanviPortrait from '@/assets/custom/home/about2.webp';
+// These resolve to Cloudinary URLs at build time (see vite.config.js), so LazyImage serves each one sized to its slot.
+import maternityBanner from '@/assets/custom/webp-images/maternitybanner.webp';
+import coupleHug from '@/assets/custom/webp-images/megha-mosaic-3.webp';
+import momToddlerLaugh from '@/assets/custom/webp-images/reva-1.webp';
+import studioTutu from '@/assets/custom/webp-images/maternity-extra-3.webp';
+import famjamBanner from '@/assets/custom/webp-images/famjambanner.webp';
+import eventBanner from '@/assets/custom/webp-images/eventbanner.webp';
+import commercialBanner from '@/assets/custom/webp-images/fashionbanner.webp';
+import coupleUnderTree from '@/assets/custom/webp-images/megha-letter1.webp';
+import milestoneBoard from '@/assets/custom/webp-images/reva-4.webp';
+import styledWithSoul from '@/assets/custom/webp-images/eshita-extra-1.webp';
+import bwCouple from '@/assets/custom/webp-images/story2.webp';
+import momWithKids from '@/assets/custom/webp-images/maternity-extra-1.webp';
+import newbornParents from '@/assets/custom/webp-images/studiobanner.webp';
+import liftUp from '@/assets/custom/webp-images/reva-6.webp';
+import picnic from '@/assets/custom/webp-images/preweddingbanner.webp';
+import silhouette from '@/assets/custom/webp-images/anniversary-banner.webp';
+import tanviPortrait from '@/assets/custom/webp-images/about2.webp';
 
 // Slugs match the existing /category/:categorySlug/albums routes.
 // `wide` marks landscape photos, so the hover peek widens to show them whole.

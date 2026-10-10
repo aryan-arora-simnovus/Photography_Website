@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import ContactBanner from '@/components/editorial/ContactBanner';
+import LazyImage from '@/components/common/LazyImage';
 import studio1 from '@/assets/custom/webp-images/studio1.webp';
 import studio2 from '@/assets/custom/webp-images/studio2.webp';
 import studio3 from '@/assets/custom/webp-images/studio3.webp';
 import family from '@/assets/custom/webp-images/family.webp';
-import portrait from '@/assets/custom/home/about2.webp';
+import portrait from '@/assets/custom/webp-images/about2.webp';
 import filmPoster from '@/assets/custom/webp-images/reva-reel-poster.webp';
-import { cldVideo } from '@/utils/imageUtils';
+import { cld, cldVideo } from '@/utils/imageUtils';
 
 // Tanvi's own About film (about/hero.mp4) was never uploaded, so this slot shows a Snippets family film
 // for now, credited underneath. Swap in her film's Cloudinary URL once it is online.
@@ -76,8 +77,8 @@ const About = () => (
         </Link>
       </div>
       <div className="flex-[1_1_340px] min-w-0 max-w-[480px] mx-auto">
-        <div className="aspect-[2/3] overflow-hidden rounded-t-full rounded-b">
-          <img src={portrait} alt="Tanvi with her camera, in black and white" className="block w-full h-full object-cover" />
+        <div className="ed-ph aspect-[2/3] overflow-hidden rounded-t-full rounded-b">
+          <LazyImage src={portrait} alt="Tanvi with her camera, in black and white" sizes="(min-width: 1024px) 480px, 100vw" loading="eager" fetchPriority="high" className="block w-full h-full object-cover" />
         </div>
       </div>
     </section>
@@ -88,7 +89,7 @@ const About = () => (
         <figure className="flex-[1.2_1_440px] min-w-0 m-0">
           <video
             src={aboutVideo}
-            poster={filmPoster}
+            poster={cld(filmPoster, { width: 1280 })}
             controls
             playsInline
             preload="none"
@@ -144,8 +145,8 @@ const About = () => (
     <section className="bg-sand py-[120px]">
       <div className="max-w-[1360px] mx-auto px-6 md:px-8 flex flex-wrap gap-16 items-center">
         <div className="flex-[1_1_380px] min-w-0">
-          <div className="aspect-[2/3] overflow-hidden rounded">
-            <img src={family} alt="A large family posed together" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+          <div className="ed-ph aspect-[2/3] overflow-hidden rounded">
+            <LazyImage src={family} alt="A large family posed together" sizes="(min-width: 1024px) 45vw, 100vw" className="block w-full h-full object-cover" />
           </div>
         </div>
         <div className="flex-[1.1_1_420px] min-w-0">
@@ -185,14 +186,14 @@ const About = () => (
       </div>
       {/* The studio photos are square: one large square beside two small ones, all uncropped. */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-7">
-        <div className="ed-zoom col-span-2 md:row-span-2 aspect-square md:aspect-auto overflow-hidden rounded">
-          <img src={studio2} alt="The Snippets studio interior" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+        <div className="ed-zoom ed-ph col-span-2 md:row-span-2 aspect-square md:aspect-auto overflow-hidden rounded">
+          <LazyImage src={studio2} alt="The Snippets studio interior" sizes="(min-width: 768px) 66vw, 100vw" className="block w-full h-full object-cover" />
         </div>
-        <div className="ed-zoom aspect-square overflow-hidden rounded">
-          <img src={studio1} alt="A studio set with a cyclorama wall" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+        <div className="ed-zoom ed-ph aspect-square overflow-hidden rounded">
+          <LazyImage src={studio1} alt="A studio set with a cyclorama wall" sizes="(min-width: 768px) 33vw, 50vw" className="block w-full h-full object-cover" />
         </div>
-        <div className="ed-zoom aspect-square overflow-hidden rounded">
-          <img src={studio3} alt="Studio decor and shelving" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+        <div className="ed-zoom ed-ph aspect-square overflow-hidden rounded">
+          <LazyImage src={studio3} alt="Studio decor and shelving" sizes="(min-width: 768px) 33vw, 50vw" className="block w-full h-full object-cover" />
         </div>
       </div>
     </section>

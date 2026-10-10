@@ -10,13 +10,14 @@ export default function InlineReel({ poster, src, className = '', aspect = '9 / 
   const [started, setStarted] = useState(false);
   const [w, h] = aspect.split('/').map(Number);
   const isWide = w > h;
+  const posterSizes = isWide ? '(min-width: 1024px) 560px, 100vw' : '384px';
   const frameClass = `relative mx-auto bg-black rounded-2xl overflow-hidden shadow-2xl ${isWide ? '' : 'max-w-sm'} ${className}`;
 
   if (!src) {
     return (
       <div className={frameClass}>
         <div className="relative w-full" style={{ aspectRatio: aspect }}>
-          <LazyImage src={poster} alt={alt} className="block w-full h-full object-cover" />
+          <LazyImage src={poster} alt={alt} sizes={posterSizes} className="block w-full h-full object-cover" />
         </div>
       </div>
     );
@@ -49,6 +50,7 @@ export default function InlineReel({ poster, src, className = '', aspect = '9 / 
           >
             <LazyImage
               src={poster}
+              sizes={posterSizes}
               alt=""
               className="block w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />

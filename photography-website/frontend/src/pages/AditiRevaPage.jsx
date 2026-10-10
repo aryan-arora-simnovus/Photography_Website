@@ -1,6 +1,5 @@
 // src/pages/stories/AditiReva.jsx
 import React, { useState } from 'react'
-import ReactPlayer from 'react-player'
 import { motion } from 'framer-motion'
 import { PlayCircle, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -88,6 +87,8 @@ export default function AditiRevaPage() {
         <LazyImage
           src={hero}
           alt="A Day with Reva"
+          loading="eager"
+          fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ aspectRatio: '3/2' }}
         />
@@ -179,6 +180,7 @@ export default function AditiRevaPage() {
         <LazyImage
           src={block.img}
           alt={block.heading}
+          sizes="(min-width: 768px) 50vw, 100vw"
           className="w-full h-auto object-cover rounded-2xl shadow-xl"
         />
         <h3 className="text-xl md:text-2xl font-serif text-nature-forest">{block.heading}</h3>
@@ -214,6 +216,7 @@ export default function AditiRevaPage() {
         <LazyImage
           src={src}
           alt={`Gallery ${index + 1}`}
+          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           className="max-h-[90%] max-w-full object-contain"
         />
         <p className="text-center text-sm text-gray-600 mt-2">
@@ -236,6 +239,7 @@ export default function AditiRevaPage() {
           <LazyImage
             src={src}
             alt={`Gallery ${index + 1}`}
+            sizes={isLandscape(index) ? '100vw' : '(min-width: 768px) 50vw, 100vw'}
             className="w-full h-auto rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 object-cover"
           />
         </div>

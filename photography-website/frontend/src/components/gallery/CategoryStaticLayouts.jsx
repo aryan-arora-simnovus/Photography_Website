@@ -19,6 +19,8 @@ const baseLayout = (imgSrc, altText, title, subtitle) => (
     <LazyImage
       src={imgSrc}
       alt={altText}
+      loading="eager"
+      fetchPriority="high"
       className="w-full h-auto object-contain"
     />
 

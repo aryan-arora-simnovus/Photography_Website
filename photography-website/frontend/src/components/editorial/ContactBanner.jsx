@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import LazyImage from '@/components/common/LazyImage';
 import { about } from './homeContent';
 
 /**
@@ -10,11 +11,10 @@ import { about } from './homeContent';
 const ContactBanner = ({ image = about.contactImage }) => (
   <section className="px-6 md:px-8 pb-[120px]">
     <div className="max-w-[1296px] mx-auto rounded-md overflow-hidden bg-ink flex flex-col md:flex-row">
-      <img
+      <LazyImage
         src={image}
         alt=""
-        loading="lazy"
-        decoding="async"
+        sizes="(min-width: 768px) 440px, 100vw"
         className="block w-full aspect-[2/3] object-cover md:w-[min(40%,440px)] md:flex-none md:order-2"
       />
       <div className="flex-1 min-w-0 flex flex-col justify-end p-[clamp(32px,6vw,80px)] text-ivory">
