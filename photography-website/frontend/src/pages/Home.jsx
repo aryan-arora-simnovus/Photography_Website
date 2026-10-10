@@ -7,6 +7,7 @@ import RecentFrames from '@/components/editorial/RecentFrames';
 import KindWords from '@/components/editorial/KindWords';
 import MiniSessions from '@/components/editorial/MiniSessions';
 import ContactBanner from '@/components/editorial/ContactBanner';
+import LazyImage from '@/components/common/LazyImage';
 import {
   workCategories,
   stories,
@@ -79,8 +80,8 @@ const Home = () => {
         >
           {stories.map((s) => (
             <Link key={s.to} to={s.to} className="ed-zoom flex-[0_0_min(480px,80vw)] snap-start text-ink hover:text-ink no-underline">
-              <span className="block aspect-[2/3] overflow-hidden rounded">
-                <img src={s.image} alt={s.alt} loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+              <span className="ed-ph block aspect-[2/3] overflow-hidden rounded">
+                <LazyImage src={s.image} alt={s.alt} sizes="(min-width: 640px) 480px, 80vw" className="block w-full h-full object-cover" />
               </span>
               <span className="flex justify-between items-baseline gap-4 mt-[18px]">
                 <span className="font-display text-[34px] leading-[1.1]">{s.title}</span>
@@ -109,8 +110,8 @@ const Home = () => {
       <section id="about" className="bg-paper py-[120px]">
         <div className="max-w-[1360px] mx-auto px-6 md:px-8 flex flex-wrap gap-[72px] items-center">
           <div className="flex-[1_1_340px] min-w-0 max-w-[480px]">
-            <div className="aspect-[2/3] overflow-hidden rounded-t-full rounded-b">
-              <img src={about.portrait} alt="Tanvi with her camera, in black and white" loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+            <div className="ed-ph aspect-[2/3] overflow-hidden rounded-t-full rounded-b">
+              <LazyImage src={about.portrait} alt="Tanvi with her camera, in black and white" sizes="(min-width: 1024px) 480px, 100vw" className="block w-full h-full object-cover" />
             </div>
           </div>
           <div className="flex-[1.3_1_440px] min-w-0">

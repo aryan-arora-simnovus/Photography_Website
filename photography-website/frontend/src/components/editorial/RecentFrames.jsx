@@ -1,4 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import LazyImage from '@/components/common/LazyImage';
+
+// Columns are at least 260px wide: three across from about 900px, two from about 580px, else one.
+const FRAME_SIZES = '(min-width: 900px) 30vw, (min-width: 580px) 50vw, 100vw';
 
 /** Three photo columns that drift at different speeds while the section scrolls past. */
 const RecentFrames = ({ columns }) => {
@@ -40,8 +44,8 @@ const RecentFrames = ({ columns }) => {
           className={`flex flex-col gap-7 flex-[1_1_260px] min-w-0 will-change-transform ${col.offset ? 'md:mt-[90px]' : ''}`}
         >
           {col.frames.map((f) => (
-            <div key={f.alt} className="ed-zoom block overflow-hidden rounded" style={{ aspectRatio: f.ratio }}>
-              <img src={f.src} alt={f.alt} loading="lazy" decoding="async" className="block w-full h-full object-cover" />
+            <div key={f.alt} className="ed-zoom ed-ph block overflow-hidden rounded" style={{ aspectRatio: f.ratio }}>
+              <LazyImage src={f.src} alt={f.alt} sizes={FRAME_SIZES} className="block w-full h-full object-cover" />
             </div>
           ))}
         </div>

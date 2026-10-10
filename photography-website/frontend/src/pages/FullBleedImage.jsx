@@ -7,6 +7,7 @@ export default function FullBleedImage({ src, alt, isLandscape = false }) {
       <LazyImage
         src={src}
         alt={alt}
+        sizes="(min-width: 600px) 800px, 100vw"
         className={`w-full object-contain ${
           isLandscape ? 'max-h-[500px]' : 'max-h-[800px]'
         }`}

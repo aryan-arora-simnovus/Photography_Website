@@ -77,6 +77,8 @@ export default function EshitaElla() {
   <LazyImage
     src={hero}
     alt="Eshita and Ella"
+    loading="eager"
+    fetchPriority="high"
     className="absolute inset-0 w-full h-full object-cover"
     style={{ aspectRatio: '3/2' }} // for maximum browser support
   />
@@ -187,6 +189,7 @@ export default function EshitaElla() {
         <LazyImage
           src={src}
           alt={`Gallery ${index + 1}`}
+          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           className="max-h-[90%] max-w-full object-contain"
         />
         <p className="text-center text-sm text-gray-600 mt-2">
@@ -212,6 +215,7 @@ export default function EshitaElla() {
             <LazyImage
               src={src}
               alt={`Gallery ${index + 1}`}
+              sizes={isLandscape ? '100vw' : '(min-width: 768px) 50vw, 100vw'}
               className="w-full h-auto rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 object-cover"
             />
           </div>

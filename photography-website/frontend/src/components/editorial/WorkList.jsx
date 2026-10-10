@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { cld } from '@/utils/imageUtils';
+
+// The peek is at most 380px wide (see .ed-peek); 800px covers it on high-density screens.
+const peekSrc = (image) => cld(image, { width: 800 });
 
 // Half the peek's width (see .ed-peek) plus room for its tilt, so it stays inside the list.
 const PEEK_HALF_WIDTH = { portrait: 150, wide: 205 };
@@ -7,6 +11,14 @@ const PEEK_HALF_WIDTH = { portrait: 150, wide: 205 };
 const WorkList = ({ categories }) => {
   const [hovered, setHovered] = useState(-1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  // On devices with a pointer, fetch every peek photo once the page is idle so hovering shows it at once.
+  useEffect(() => {
+    if (!window.matchMedia?.('(hover: hover)').matches) return undefined;
+    const warm = () => categories.forEach((c) => { new Image().src = peekSrc(c.image); });
+    const id = window.requestIdleCallback ? window.requestIdleCallback(warm) : window.setTimeout(warm, 1500);
+    return () => (window.cancelIdleCallback ? window.cancelIdleCallback(id) : window.clearTimeout(id));
+  }, [categories]);
 
   const peek = categories[hovered >= 0 ? hovered : 0];
 
@@ -28,7 +40,7 @@ const WorkList = ({ categories }) => {
         style={{ left: pos.x, top: pos.y }}
         aria-hidden="true"
       >
-        <img src={peek.image} alt="" />
+        <img src={peekSrc(peek.image)} alt="" decoding="async" />
       </div>
       {categories.map((c, i) => (
         <Link

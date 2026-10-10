@@ -9,7 +9,7 @@ import FavoriteButton from '@/components/common/FavoriteButton';
 import DownloadButton from '@/components/common/DownloadButton';
 import ShareButton from '@/components/common/ShareButton';
 import LazyImage from '@/components/common/LazyImage';
-import { cldVideo, cldVideoPoster } from '@/utils/imageUtils';
+import { cld, cldVideo, cldVideoPoster } from '@/utils/imageUtils';
 
 const breakpointColumnsObj = {
   default: 4,
@@ -18,9 +18,22 @@ const breakpointColumnsObj = {
   480: 1,
 };
 
+// Column width at each breakpoint above, so tiles download a photo their own size, not the window's.
+const TILE_SIZES = '(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw';
+const LIGHTBOX_WIDTH = 1600;
+
 const PhotoGallery = ({ photos }) => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Fetch the photos either side of the open one, so the arrows show them straight away.
+  useEffect(() => {
+    if (!selectedPhoto) return;
+    [currentIndex - 1, currentIndex + 1].forEach((i) => {
+      const next = photos[(i + photos.length) % photos.length];
+      if (next?.image) new Image().src = cld(next.image, { width: LIGHTBOX_WIDTH });
+    });
+  }, [selectedPhoto, currentIndex, photos]);
 
   if (!photos || photos.length === 0) {
     return (
@@ -62,6 +75,7 @@ const PhotoGallery = ({ photos }) => {
           <div 
             key={photo.id || idx} 
             className="masonry-item mb-4 overflow-hidden cursor-zoom-in relative group"
+            style={photo.ratio ? { aspectRatio: photo.ratio, backgroundColor: photo.color } : undefined}
             onClick={() => openLightbox(photo, idx)}
           >
             {photo.type === 'video' || photo.video ? (
@@ -79,8 +93,9 @@ const PhotoGallery = ({ photos }) => {
             ) : (
               <LazyImage
                 src={photo.image}
+                sizes={TILE_SIZES}
                 alt={photo.alt_text || photo.title}
-                className="w-full h-auto transition-all duration-300 group-hover:brightness-110"
+                className={`block w-full ${photo.ratio ? 'h-full object-cover' : 'h-auto'} transition-all duration-300 group-hover:brightness-110`}
               />
             )}
             
@@ -110,7 +125,7 @@ const PhotoGallery = ({ photos }) => {
             <div className="absolute inset-0 z-0">
                {selectedPhoto && (
                  <img 
-                   src={selectedPhoto.image || cldVideoPoster(selectedPhoto.video)} 
+                   src={selectedPhoto.image ? cld(selectedPhoto.image, { width: 64 }) : cldVideoPoster(selectedPhoto.video, { width: 64 })} 
                    alt="" 
                    className="w-full h-full object-cover filter blur-[100px] brightness-[0.4] saturate-[1.5] scale-125 transition-all duration-[2s]"
                  />
@@ -169,7 +184,7 @@ const PhotoGallery = ({ photos }) => {
                     />
                   ) : (
                     <img
-                      src={selectedPhoto.image}
+                      src={cld(selectedPhoto.image, { width: LIGHTBOX_WIDTH })}
                       alt=""
                       className="max-h-[80vh] max-w-full object-contain shadow-[0_40px_100px_rgba(0,0,0,0.8)] border-[6px] md:border-[12px] border-white/5"
                     />

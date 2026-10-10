@@ -13,13 +13,11 @@ const PUBLIC_DIR = path.join(__dirname, '../public');
 const PORTFOLIO_DIR = path.join(PUBLIC_DIR, 'portfolio');
 const OUTPUT_FILE = path.join(__dirname, '../src/data/portfolioManifest.json');
 
-// Ensure the portfolio directory exists
+// The photos live on Cloudinary; public/portfolio is only a local mirror used to list them. Without
+// it there is nothing to scan, so keep the committed manifest rather than overwrite it with an empty one.
 if (!fs.existsSync(PORTFOLIO_DIR)) {
-  fs.mkdirSync(PORTFOLIO_DIR, { recursive: true });
-  fs.mkdirSync(path.join(PORTFOLIO_DIR, 'hero'), { recursive: true });
-  fs.mkdirSync(path.join(PORTFOLIO_DIR, 'featured'), { recursive: true });
-  fs.mkdirSync(path.join(PORTFOLIO_DIR, 'famjam'), { recursive: true });
-  fs.mkdirSync(path.join(PORTFOLIO_DIR, 'maternity'), { recursive: true });
+  console.log('📸 public/portfolio not found; keeping the existing portfolio manifest.');
+  process.exit(0);
 }
 
 // Supported extensions
@@ -143,6 +141,11 @@ for (const folder of folders) {
       }
     }
   }
+}
+
+if (Object.keys(manifest.categories).length === 0 && manifest.hero.length === 0 && manifest.featured.length === 0) {
+  console.log('📸 No photos found in public/portfolio; keeping the existing portfolio manifest.');
+  process.exit(0);
 }
 
 // Write to src/data

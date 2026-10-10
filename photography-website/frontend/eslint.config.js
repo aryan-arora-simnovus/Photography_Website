@@ -30,4 +30,9 @@ export default [
       ],
     },
   },
+  {
+    // Build configs and scripts run in Node, so `process` and `__dirname` exist there.
+    files: ['*.config.js', 'scripts/**/*.js'],
+    languageOptions: { globals: globals.node },
+  },
 ]

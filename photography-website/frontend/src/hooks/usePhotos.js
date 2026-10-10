@@ -1,7 +1,17 @@
 import { useState, useEffect, useMemo } from 'react';
 import curation from '../data/galleryCuration.json';
+import placeholders from '../data/photoPlaceholders.json';
 
 const hidden = new Set(curation.hidden);
+
+// Shape and average colour of each photo (keyed by its path on Cloudinary), so galleries can hold
+// a correctly sized, tinted space for it while it loads. Kept outside the manifest so it survives
+// regenerating the manifest.
+const CLOUDINARY_ROOT = 'https://res.cloudinary.com/dfmqkncaz/image/upload/v1/snippets-by-tanvi/';
+const withPlaceholder = (p) => {
+  const hit = p.image && placeholders[p.image.replace(CLOUDINARY_ROOT, '')];
+  return hit ? { ...p, ratio: hit[0], color: `#${hit[1]}` } : p;
+};
 
 /**
  * Apply the gallery curation to an album: drop hidden look-alikes, missing files and
@@ -9,7 +19,7 @@ const hidden = new Set(curation.hidden);
  * their original order after the curated ones).
  */
 export const curatePhotos = (folder, photos = []) => {
-  const visible = photos.filter((p) => (p.image || p.video) && !hidden.has(p.image));
+  const visible = photos.filter((p) => (p.image || p.video) && !hidden.has(p.image)).map(withPlaceholder);
   const order = curation.order[folder];
   if (!order) return visible;
   const rank = new Map(order.map((url, i) => [url, i]));
